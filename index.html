@@ -63,7 +63,8 @@ html[dir="ltr"] .navitem.active{box-shadow:inset -3px 0 0 var(--gold)}.navitem s
 .btn.primary{background:var(--ink);color:#fff}.btn.primary:hover{background:var(--ink-2)}.btn.gold{background:var(--gold);color:#231706}.btn.gold:hover{background:var(--gold-deep);color:#fff}.btn.ghost{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}.btn.ghost:hover{border-color:var(--gold)}.btn.sm{padding:7px 13px;font-size:12.5px}.btn.block{width:100%}.btn:disabled{opacity:.5;cursor:not-allowed}
 label.fld{display:block;margin-bottom:15px}label.fld .lt{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;display:block}
 .inp{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;font-size:14px;background:var(--card);color:var(--txt)}.inp:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,137,59,.13)}select.inp{appearance:none}
-.filebox{border:1.6px dashed var(--line-strong);border-radius:12px;padding:18px;text-align:center;color:var(--muted);background:var(--paper);cursor:pointer}.filebox:hover{border-color:var(--gold)}.filebox b{color:var(--ink)}
+.filebox{border:1.6px dashed var(--line-strong);border-radius:12px;padding:18px;text-align:center;color:var(--muted);background:var(--paper);cursor:pointer}.filebox:hover{border-color:var(--gold)}
+.svc-card{transition:border-color .15s,box-shadow .15s,transform .12s}.svc-card:hover{border-color:var(--gold);box-shadow:var(--sh-lg);transform:translateY(-2px)}.filebox b{color:var(--ink)}
 .req{display:flex;align-items:center;gap:9px;padding:8px 0;font-size:13.5px;color:var(--steel)}.req .d{width:7px;height:7px;border-radius:50%;background:var(--gold);flex:none}
 .timeline{position:relative}.tnode{display:grid;grid-template-columns:32px 1fr;gap:13px;padding-bottom:20px;position:relative}.tnode:not(:last-child)::before{content:"";position:absolute;inset-inline-start:15px;top:28px;bottom:-4px;width:2px;background:var(--line)}.tnode.done:not(:last-child)::before{background:var(--gold)}
 .tdot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--paper-2);color:var(--muted-2);border:2px solid var(--line);z-index:1;font-size:12px}.tnode.done .tdot{background:var(--gold);border-color:var(--gold);color:#fff}.tnode.current .tdot{background:#fff;border-color:var(--ink);color:var(--ink);box-shadow:0 0 0 4px rgba(14,39,64,.1)}
@@ -82,9 +83,34 @@ label.fld{display:block;margin-bottom:15px}label.fld .lt{font-size:13px;font-wei
 .empty{text-align:center;padding:40px 20px;color:var(--muted)}.hairnote{font-size:12px;color:var(--muted-2);margin-top:8px}
 .spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block}.btn.ghost .spin,.btn.gold .spin{border-color:rgba(14,39,64,.25);border-top-color:var(--ink)}@keyframes sp{to{transform:rotate(360deg)}}
 .menutoggle{display:none}.scrim{display:none}
-@media(max-width:1024px){.verifywrap{grid-template-columns:1fr}}
-@media(max-width:880px){#app{grid-template-columns:1fr}.sidebar{position:fixed;inset-block:0;width:var(--side);z-index:60;transition:transform .25s;box-shadow:var(--sh-lg)}html[dir="rtl"] .sidebar{inset-inline-end:0;transform:translateX(110%)}html[dir="ltr"] .sidebar{inset-inline-start:0;transform:translateX(-110%)}body.navopen .sidebar{transform:translateX(0)}.scrim{display:block;position:fixed;inset:0;background:rgba(8,20,34,.45);z-index:55;opacity:0;pointer-events:none;transition:opacity .25s}body.navopen .scrim{opacity:1;pointer-events:auto}.menutoggle{display:inline-grid;width:42px;justify-content:center;padding:0}#auth{grid-template-columns:1fr}#auth .brandside{display:none}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:1024px){.verifywrap{grid-template-columns:1fr}}
+@media (max-width:900px){
+  #app{grid-template-columns:1fr}
+  .sidebar{position:fixed;inset-block:0;width:min(82vw,280px);z-index:60;transition:transform .25s;box-shadow:var(--sh-lg)}
+  html[dir="rtl"] .sidebar{inset-inline-end:0;transform:translateX(106%)}
+  html[dir="ltr"] .sidebar{inset-inline-start:0;transform:translateX(-106%)}
+  body.navopen .sidebar{transform:translateX(0)}
+  .scrim{display:block;position:fixed;inset:0;background:rgba(8,20,34,.45);z-index:55;opacity:0;pointer-events:none;transition:opacity .25s}
+  body.navopen .scrim{opacity:1;pointer-events:auto}
+  .menutoggle{display:inline-grid;width:42px;justify-content:center;padding:0}
+  #auth{grid-template-columns:1fr}#auth .brandside{display:none}
+}
+@media (max-width:560px){
+  body{font-size:14.5px}
+  .content{padding:16px 13px 60px}
+  .topbar{height:56px;padding:0 12px;gap:8px}
+  .pagehead{margin-bottom:16px}.pagehead h1{font-size:20px}.pagehead p{font-size:13.5px}
+  .stats{grid-template-columns:1fr 1fr;gap:10px}
+  .stat{padding:14px}.stat .val{font-size:25px}.stat .ring{display:none}
+  .card.pad{padding:15px}
+  .who .meta{display:none}.crumb{font-size:12px}
+  .grid{gap:12px}.cols-2,.cols-3{grid-template-columns:1fr}
+  .btn{padding:11px 14px;font-size:13.5px}
+  .sectionhead h2{font-size:16px}
+  .verifywrap{gap:14px}
+}
+@media (max-width:380px){.stats{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -149,7 +175,10 @@ ar:{dir:"rtl",lang:"ar",cur:"د.أ",
  steps:["تم التقديم","استُلم الأصل","تم التحقق","مدفوعة","أُرسلت للسفارة","مراجعة السفارة","مُخلَّصة","جاهزة","سُلِّمت"],
  sub_p:"اختر الخدمة، عبّئ البيانات، وارفع ملف الوثيقة لتوليد بصمة حقيقية.",
  f_svc:"نوع الخدمة",f_doc:"نوع الوثيقة",f_app:"اسم مقدّم الطلب (كما بالجواز)",f_prof:"المهنة",f_phone:"الهاتف",f_email:"البريد",f_dest:"الدولة الوجهة",f_mission:"البعثة/السفارة",f_country:"دولة إصدار الشهادة",f_apos:"يتضمّن أبوستيل",f_file:"ملف الوثيقة (PDF/صورة)",filehint:"اضغط لاختيار الملف — حد أقصى 25MB",
- f_company:"اسم الشركة (اختياري)",f_visa:"اسم/نوع التأشيرة (اختياري)",f_contract:"عقد العمل (اختياري)",contracthint:"اضغط لإرفاق عقد العمل (اختياري)",client_info:"معلومات مقدّم الطلب",dl_contract:"تنزيل عقد العمل",req_title:"المتطلبات لهذه الخدمة",create:"إنشاء المعاملة",creating:"…",needfile:"اختر ملف الوثيقة.",made:"تم إنشاء المعاملة وتوليد البصمة.",
+ f_company:"اسم الشركة (اختياري)",f_visa:"اسم/نوع التأشيرة (اختياري)",f_contract:"عقد العمل (اختياري)",contracthint:"اضغط لإرفاق عقد العمل (اختياري)",client_info:"معلومات مقدّم الطلب",dl_contract:"تنزيل عقد العمل",
+ choose_service:"اختر الخدمة المطلوبة",svc_attestation_d:"تصديق الشهادات والوثائق وتجهيزها للسفارة.",svc_visa_d:"تجهيز ملف تأشيرة العمل كاملاً للسعودية.",svc_apostille_d:"أبوستيل للشهادات الصادرة من خارج الأردن.",
+ back:"رجوع",upload_files:"المستندات المطلوبة",req_mark:"مطلوب",opt_mark:"اختياري",pick_file:"اختر ملف أو صورة (PDF أو صورة)",f_notes:"ملاحظات",notes_hint:"اكتب أي ملاحظة تخص المعاملة…",
+ err_required_file:"ينقص مستند مطلوب:",err_field:"يرجى تعبئة الحقل:",upload_failed:"تعذّر رفع الملف",too_big:"الحجم أكبر من 25 ميغابايت:",made2:"تم إنشاء المعاملة ورفع المستندات بنجاح.",files_lbl:"المستندات المرفوعة",req_title:"المتطلبات لهذه الخدمة",create:"إنشاء المعاملة",creating:"…",needfile:"اختر ملف الوثيقة.",made:"تم إنشاء المعاملة وتوليد البصمة.",
  intake_p:"المعاملات الواردة بانتظار استلام الأصل.",recv:"تأكيد استلام الأصل",recvd:"تم استلام الأصل وتسجيله بالعهدة.",nointake:"لا أصول بانتظار الاستلام.",
  verify_p:"راجع الأصل، أكّد الأختام الحيّة والمطابقة، ثم اقفل التحقق.",pickdoc:"المعاملة",chk_orig:"الأصل بحوزتي ومُتحقَّق منه",chk_match:"الحقول مطابقة عبر الوثائق",lock:"قفل التحقق وإصدار البصمة",locked:"تم التحقق وقفل السجل.",allreq:"أكّد كل البنود أولاً.",onlyrecv:"تظهر هنا المعاملات بعد استلام الأصل.",reqstamps:"الأختام/المتطلبات المطلوبة",
  pay_p:"تحصيل الرسوم وإصدار إيصال عليه QR.",pay_office:"رسوم المكتب",pay_mission:"رسوم السفارة",pay_method:"طريقة الدفع",collect:"تحصيل وإصدار إيصال",paid_ok:"تم الدفع وإصدار الإيصال.",nopay:"لا معاملات بانتظار الدفع.",receipt:"إيصال",total:"الإجمالي",methods:{cash:"نقد",card:"بطاقة",wallet:"محفظة",online:"أونلاين"},
@@ -196,7 +225,10 @@ en:{dir:"ltr",lang:"en",cur:"JOD",
  steps:["Submitted","Original received","Verified","Paid","Sent to mission","Mission review","Cleared","Ready","Handed"],
  sub_p:"Pick the service, fill the data, and upload the document file to generate a real fingerprint.",
  f_svc:"Service type",f_doc:"Document type",f_app:"Applicant name (as in passport)",f_prof:"Profession",f_phone:"Phone",f_email:"Email",f_dest:"Destination country",f_mission:"Mission/Embassy",f_country:"Certificate issuing country",f_apos:"Includes Apostille",f_file:"Document file (PDF/image)",filehint:"Click to choose a file — max 25MB",
- f_company:"Company name (optional)",f_visa:"Visa name/type (optional)",f_contract:"Work contract (optional)",contracthint:"Click to attach the work contract (optional)",client_info:"Applicant information",dl_contract:"Download work contract",req_title:"Requirements for this service",create:"Create transaction",creating:"…",needfile:"Choose a document file.",made:"Transaction created and fingerprint generated.",
+ f_company:"Company name (optional)",f_visa:"Visa name/type (optional)",f_contract:"Work contract (optional)",contracthint:"Click to attach the work contract (optional)",client_info:"Applicant information",dl_contract:"Download work contract",
+ choose_service:"Choose the service",svc_attestation_d:"Attest certificates and documents and prepare them for the mission.",svc_visa_d:"Prepare the full work-visa file for Saudi Arabia.",svc_apostille_d:"Apostille for certificates issued outside Jordan.",
+ back:"Back",upload_files:"Required documents",req_mark:"Required",opt_mark:"Optional",pick_file:"Choose a file or photo (PDF or image)",f_notes:"Notes",notes_hint:"Write any note about this transaction…",
+ err_required_file:"Missing required document:",err_field:"Please fill the field:",upload_failed:"Upload failed",too_big:"Larger than 25MB:",made2:"Transaction created and documents uploaded.",files_lbl:"Uploaded documents",req_title:"Requirements for this service",create:"Create transaction",creating:"…",needfile:"Choose a document file.",made:"Transaction created and fingerprint generated.",
  intake_p:"Incoming transactions awaiting original receipt.",recv:"Confirm original received",recvd:"Original received and placed in custody.",nointake:"No originals awaiting receipt.",
  verify_p:"Review the original, confirm live stamps and matching, then lock the verification.",pickdoc:"Transaction",chk_orig:"Original in hand & verified",chk_match:"Fields match across documents",lock:"Lock verification & issue fingerprint",locked:"Verified and record locked.",allreq:"Confirm all items first.",onlyrecv:"Transactions appear here after the original is received.",reqstamps:"Required stamps/items",
  pay_p:"Collect fees and issue a QR receipt.",pay_office:"Office fee",pay_mission:"Mission fee",pay_method:"Payment method",collect:"Collect & issue receipt",paid_ok:"Paid and receipt issued.",nopay:"No transactions awaiting payment.",receipt:"Receipt",total:"Total",methods:{cash:"Cash",card:"Card",wallet:"Wallet",online:"Online"},
@@ -236,6 +268,13 @@ const NAV_BY_ROLE={
  admin:["dashboard","submit","intake","verify","payments","batch","precheck","review","lookup","custody","tracking","qr","audit","manage"]
 };
 const REQS={attestation:["issuer_stamp","mofa_stamp","notary_stamp"],visa:["valid_passport","photo","app_form","booking"],apostille:["issuer_stamp","apostille_stamp","cert_translation"]};
+const FILE_SLOTS={
+ attestation:[{k:"passport",req:true},{k:"certificate",req:true},{k:"residence",req:false},{k:"extra",req:false}],
+ visa:[{k:"passport",req:true},{k:"certificate",req:false},{k:"good_conduct",req:false},{k:"visa",req:false},{k:"army",req:false},{k:"experience",req:false},{k:"extra",req:false}],
+ apostille:[{k:"passport",req:true},{k:"certificate",req:true},{k:"extra",req:false}]
+};
+const SLOT_LABEL={ar:{passport:"صورة جواز السفر",certificate:"الشهادات",good_conduct:"حسن السيرة والسلوك",visa:"التأشيرة",army:"وثيقة الجيش / التجنيد",experience:"شهادة الخبرة",residence:"الإقامة",extra:"مستند إضافي"},
+ en:{passport:"Passport copy",certificate:"Certificates",good_conduct:"Good conduct certificate",visa:"Visa",army:"Army / conscription doc",experience:"Experience certificate",residence:"Residence permit",extra:"Additional document"}};
 const REQ_LABEL={ar:{issuer_stamp:"ختم الجهة المُصدِرة",mofa_stamp:"ختم وزارة الخارجية",notary_stamp:"ختم الكاتب العدل",valid_passport:"جواز ساري المفعول",photo:"صورة شخصية",app_form:"نموذج الطلب",booking:"حجز/دعوة",apostille_stamp:"ختم أبوستيل (لاهاي)",cert_translation:"ترجمة معتمدة"},
  en:{issuer_stamp:"Issuing-authority stamp",mofa_stamp:"MoFA stamp",notary_stamp:"Notary stamp",valid_passport:"Valid passport",photo:"Personal photo",app_form:"Application form",booking:"Booking/Invitation",apostille_stamp:"Apostille stamp (Hague)",cert_translation:"Certified translation"}};
 const FEE={attestation:{o:15,m:10},visa:{o:25,m:40},apostille:{o:30,m:20}};
@@ -269,6 +308,8 @@ function toast(m,bad){const t=document.createElement("div");t.className="toast"+
 function pill(s){const c={cleared:"ok",ready:"ok",handed:"ok",verified:"info",paid:"info",received:"info",dispatched:"info",mission_review:"warn",submitted:"muted",flagged:"bad"}[s]||"muted";return `<span class="pill ${c}">${esc(L().status[s]||s)}</span>`;}
 const svcName=s=>L().services[s]||s,dName=d=>L().docTypes[d]||d;
 const fmt=d=>new Date(d).toLocaleString(state.lang==="ar"?"ar-JO":"en-GB",{hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).replace(",","");
+function fileButtons(d){const t=L();let arr=(d.files&&d.files.length)?d.files.slice():[];if(!arr.length&&d.file_path)arr.push({k:"main",path:d.file_path});if(d.contract_path)arr.push({k:"contract",path:d.contract_path});if(!arr.length)return "";return `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">${arr.map(f=>`<button class="btn ghost sm" data-fp="${esc(f.path)}">⬇ ${esc(SLOT_LABEL[state.lang][f.k]||(f.k==="contract"?t.dl_contract:t.dl))}</button>`).join("")}</div>`;}
+function wireFiles(container){container.querySelectorAll("[data-fp]").forEach(b=>b.onclick=async()=>{b.disabled=true;try{const{data,error}=await sb.storage.from("documents").createSignedUrl(b.getAttribute("data-fp"),300);if(error)throw error;window.open(data.signedUrl,"_blank");}catch(e){toast(e.message,true);}finally{b.disabled=false;}});}
 
 /* ============ data ============ */
 async function loadProfile(){const{data}=await sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle();return data;}
@@ -403,44 +444,60 @@ function vDash(c){const t=L();const cnt=s=>state.docs.filter(d=>d.status===s).le
  <div class="card">${state.docs.length?docTable(state.docs):`<div class="empty">${esc(t.noDocs)}</div>`}</div>`;
  wire(c,"track",id=>{state.view="tracking";state._sel=id;buildNav();chrome();renderView();});}
 
-function vSubmit(c){const t=L();let file=null,cfile=null;
- const reqList=sv=>REQS[sv].map(k=>`<div class="req"><span class="d"></span>${esc(REQ_LABEL[state.lang][k])}</div>`).join("");
- c.innerHTML=head(t.nav.submit,t.nav.submit,t.sub_p)+`<div class="grid cols-2" style="align-items:start"><div class="card pad">
-   <label class="fld"><span class="lt">${esc(t.f_svc)}</span><select class="inp" id="f_svc">${Object.keys(t.services).map(k=>`<option value="${k}">${esc(t.services[k])}</option>`).join("")}</select></label>
-   <label class="fld"><span class="lt">${esc(t.f_doc)}</span><select class="inp" id="f_doc">${Object.keys(t.docTypes).map(k=>`<option value="${k}">${esc(t.docTypes[k])}</option>`).join("")}</select></label>
-   <label class="fld"><span class="lt">${esc(t.f_app)}</span><input class="inp" id="f_app"></label>
-   <div class="grid" style="grid-template-columns:1fr 1fr;gap:0 14px">
-     <label class="fld"><span class="lt">${esc(t.f_prof)}</span><input class="inp" id="f_prof"></label>
-     <label class="fld"><span class="lt">${esc(t.f_phone)}</span><input class="inp" id="f_phone" placeholder="+962…"></label>
-     <label class="fld"><span class="lt">${esc(t.f_email)}</span><input class="inp" id="f_email" type="email"></label>
-     <label class="fld"><span class="lt">${esc(t.f_passport)}</span><input class="inp" id="f_passport" placeholder="A1234567"></label>
-     <label class="fld"><span class="lt">${esc(t.f_origin)}</span><select class="inp" id="f_origin"><option value="jordan">${esc(t.or_jordan)}</option><option value="saudi">${esc(t.or_saudi)}</option><option value="other">${esc(t.or_other)}</option></select></label>
-     <label class="fld"><span class="lt">${esc(t.f_dest)}</span><input class="inp" id="f_dest"></label>
-     <label class="fld"><span class="lt">${esc(t.f_mission)}</span><input class="inp" id="f_mission"></label>
-     <label class="fld"><span class="lt">${esc(t.f_visa)}</span><input class="inp" id="f_visa"></label>
-     <label class="fld"><span class="lt">${esc(t.f_company)}</span><input class="inp" id="f_company"></label>
-     <label class="fld" id="ctryWrap"><span class="lt">${esc(t.f_country)}</span><input class="inp" id="f_country"></label>
-   </div>
-   <label class="fld"><span class="lt">${esc(t.f_file)}</span><div class="filebox" id="fbox"><span id="fname">${esc(t.filehint)}</span></div><input type="file" id="f_file" accept="application/pdf,image/*" class="hide"></label>
-   <label class="fld"><span class="lt">${esc(t.f_contract)}</span><div class="filebox" id="cbox"><span id="cname">${esc(t.contracthint)}</span></div><input type="file" id="f_cfile" accept="application/pdf,image/*" class="hide"></label>
-   <button class="btn primary block" id="f_go">${esc(t.create)}</button></div>
-   <div class="card pad"><div class="sectionhead" style="margin:0 0 6px"><h2>${esc(t.req_title)}</h2></div><div id="reqbox">${reqList("attestation")}</div>
-     <p class="hairnote">${state.lang==="ar"?"تُحسب بصمة SHA-256 من بايتات الملف وتُخزَّن في القاعدة.":"A SHA-256 hash of the file bytes is computed and stored."}</p></div></div>`;
- const apos=()=>$("#f_svc").value==="apostille";
- $("#f_svc").onchange=()=>{$("#reqbox").innerHTML=reqList($("#f_svc").value);$("#ctryWrap").style.display=apos()?"block":"none";};
- $("#ctryWrap").style.display="none";
- $("#fbox").onclick=()=>$("#f_file").click();
- $("#cbox").onclick=()=>$("#f_cfile").click();
- $("#f_cfile").onchange=e=>{cfile=e.target.files[0];if(cfile&&cfile.size>26214400){toast(state.lang==="ar"?"الحجم أكبر من 25MB":"Larger than 25MB",true);cfile=null;$("#f_cfile").value="";$("#cname").textContent=t.contracthint;return;}$("#cname").innerHTML=cfile?`<b>${esc(cfile.name)}</b>`:esc(t.contracthint);};
- $("#f_file").onchange=e=>{file=e.target.files[0];if(file&&file.size>26214400){toast(state.lang==="ar"?"الحجم أكبر من 25MB":"Larger than 25MB",true);file=null;$("#f_file").value="";$("#fname").textContent=t.filehint;return;}$("#fname").innerHTML=file?`<b>${esc(file.name)}</b>`:esc(t.filehint);};
- $("#f_go").onclick=async function(){if(!file){toast(t.needfile,true);return;}const btn=this;btn.disabled=true;btn.innerHTML=`<span class="spin"></span>`;
-  try{const fp=await sha256File(file);const sv=$("#f_svc").value;const ref=rno("DOC");const path=session.user.id+"/"+ref+"-"+file.name.replace(/[^\w.\-]/g,"_");
-   try{await sb.storage.from("documents").upload(path,file);}catch(e){}
-   let cpath=null;if(cfile){cpath=session.user.id+"/"+ref+"-contract-"+cfile.name.replace(/[^\w.\-]/g,"_");try{await sb.storage.from("documents").upload(cpath,cfile);}catch(e){cpath=null;}}
-   const{error}=await sb.from("documents").insert({ref_no:ref,service_type:sv,doc_type:$("#f_doc").value,applicant_name:$("#f_app").value.trim()||"—",profession:$("#f_prof").value,phone:$("#f_phone").value,email:$("#f_email").value,passport_number:$("#f_passport").value.trim()||null,origin:$("#f_origin").value,destination:$("#f_dest").value,mission:$("#f_mission").value,visa_name:$("#f_visa").value.trim()||null,company_name:$("#f_company").value.trim()||null,country:$("#f_country").value,apostille:sv==="apostille",status:"submitted",step:0,fingerprint:fp,file_path:path,contract_path:cpath});
-   if(error)throw error;await logEvent("document_submitted",ref);await fetchDocs();toast(t.made);
-   const d=state.docs.find(x=>x.ref_no===ref);state.view="tracking";state._sel=d?d.id:null;buildNav();chrome();renderView();}
-  catch(e){toast(e.message||"Error",true);btn.disabled=false;btn.textContent=t.create;}};}
+function vSubmit(c){const t=L();let chosen=null;const slotFiles={};
+ const cards=[["attestation",t.svc_attestation_d],["visa",t.svc_visa_d],["apostille",t.svc_apostille_d]];
+ const renderCards=()=>{Object.keys(slotFiles).forEach(k=>delete slotFiles[k]);
+   c.innerHTML=head(t.nav.submit,t.choose_service,t.sub_p)+`<div class="grid cols-3">${cards.map(([k,d])=>`<button class="card pad svc-card" data-svc="${k}" style="text-align:start;cursor:pointer"><div class="seal" style="width:42px;height:42px;margin-bottom:10px">${sealSVG()}</div><div style="font-weight:700;color:var(--ink);font-size:17px;margin-bottom:4px">${esc(t.services[k])}</div><div style="color:var(--muted);font-size:13.5px;line-height:1.6">${esc(d)}</div></button>`).join("")}</div>`;
+   c.querySelectorAll("[data-svc]").forEach(b=>b.onclick=()=>{chosen=b.getAttribute("data-svc");renderForm();});};
+ const renderForm=()=>{Object.keys(slotFiles).forEach(k=>delete slotFiles[k]);
+   const slots=FILE_SLOTS[chosen]||[];const isVisa=chosen==="visa",isApos=chosen==="apostille";
+   c.innerHTML=head(t.nav.submit,t.services[chosen],t.sub_p)
+   +`<button class="btn ghost sm" id="bk" style="margin-bottom:14px">← ${esc(t.back)}</button>
+     <div class="card pad" style="margin-bottom:16px"><div class="sectionhead" style="margin:0 0 10px"><h2>${esc(t.client_info)}</h2></div>
+       <label class="fld"><span class="lt">${esc(t.f_app)} *</span><input class="inp" id="f_app"></label>
+       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0 14px">
+         <label class="fld"><span class="lt">${esc(t.f_passport)} *</span><input class="inp" id="f_passport" placeholder="A1234567"></label>
+         <label class="fld"><span class="lt">${esc(t.f_phone)}</span><input class="inp" id="f_phone" placeholder="+962…"></label>
+         <label class="fld"><span class="lt">${esc(t.f_email)}</span><input class="inp" id="f_email" type="email"></label>
+         <label class="fld"><span class="lt">${esc(t.f_prof)}</span><input class="inp" id="f_prof"></label>
+         <label class="fld"><span class="lt">${esc(t.f_dest)}</span><input class="inp" id="f_dest"></label>
+         <label class="fld"><span class="lt">${esc(t.f_mission)}</span><input class="inp" id="f_mission"></label>
+         <label class="fld"><span class="lt">${esc(t.f_origin)}</span><select class="inp" id="f_origin"><option value="jordan">${esc(t.or_jordan)}</option><option value="saudi">${esc(t.or_saudi)}</option><option value="other">${esc(t.or_other)}</option></select></label>
+         <label class="fld"><span class="lt">${esc(t.f_doc)}</span><select class="inp" id="f_doc">${Object.keys(t.docTypes).map(k=>`<option value="${k}">${esc(t.docTypes[k])}</option>`).join("")}</select></label>
+         ${isVisa?`<label class="fld"><span class="lt">${esc(t.f_visa)}</span><input class="inp" id="f_visa"></label><label class="fld"><span class="lt">${esc(t.f_company)}</span><input class="inp" id="f_company"></label>`:""}
+         ${isApos?`<label class="fld"><span class="lt">${esc(t.f_country)}</span><input class="inp" id="f_country"></label>`:""}
+       </div></div>
+     <div class="card pad" style="margin-bottom:16px"><div class="sectionhead" style="margin:0 0 4px"><h2>${esc(t.upload_files)}</h2></div>
+       <p class="hairnote" style="margin:0 0 12px">${esc(t.pick_file)} — ${state.lang==="ar"?"حد أقصى 25 ميغابايت لكل ملف":"max 25MB per file"}</p>
+       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+       ${slots.map(s=>`<div class="fld"><span class="lt">${esc(SLOT_LABEL[state.lang][s.k])} ${s.req?`<span class="pill bad" style="font-size:10px">${esc(t.req_mark)}</span>`:`<span class="pill muted" style="font-size:10px">${esc(t.opt_mark)}</span>`}</span><div class="filebox" data-slot="${s.k}"><span id="sn_${s.k}">${esc(t.pick_file)}</span></div><input type="file" id="sf_${s.k}" accept="application/pdf,image/*" class="hide"></div>`).join("")}
+       </div></div>
+     <div class="card pad" style="margin-bottom:16px"><label class="fld" style="margin:0"><span class="lt">${esc(t.f_notes)}</span><textarea class="inp" id="f_notes" rows="3" placeholder="${esc(t.notes_hint)}"></textarea></label></div>
+     <button class="btn primary block" id="f_go">${esc(t.create)}</button>`;
+   $("#bk").onclick=renderCards;
+   slots.forEach(s=>{const box=c.querySelector('[data-slot="'+s.k+'"]'),inp=$("#sf_"+s.k);box.onclick=()=>inp.click();
+     inp.onchange=e=>{const f=e.target.files[0];if(f&&f.size>26214400){toast(t.too_big+" "+f.name,true);inp.value="";delete slotFiles[s.k];$("#sn_"+s.k).textContent=t.pick_file;return;}if(f){slotFiles[s.k]=f;$("#sn_"+s.k).innerHTML=`<b>${esc(f.name)}</b>`;}else{delete slotFiles[s.k];$("#sn_"+s.k).textContent=t.pick_file;}};});
+   $("#f_go").onclick=submit;};
+ const submit=async function(){const btn=this;
+   const name=$("#f_app").value.trim();if(!name){toast(t.err_field+" "+t.f_app,true);return;}
+   const passport=$("#f_passport").value.trim();if(!passport){toast(t.err_field+" "+t.f_passport,true);return;}
+   const slots=FILE_SLOTS[chosen]||[];
+   for(const s of slots){if(s.req&&!slotFiles[s.k]){toast(t.err_required_file+" "+SLOT_LABEL[state.lang][s.k],true);return;}}
+   btn.disabled=true;btn.innerHTML=`<span class="spin"></span>`;
+   try{const ref=rno("DOC");const files=[];
+     for(const s of slots){const f=slotFiles[s.k];if(!f)continue;const path=session.user.id+"/"+ref+"-"+s.k+"-"+f.name.replace(/[^\w.\-]/g,"_");
+       const{error:upErr}=await sb.storage.from("documents").upload(path,f);
+       if(upErr)throw new Error(t.upload_failed+": "+upErr.message);
+       files.push({k:s.k,label:SLOT_LABEL.ar[s.k],path,name:f.name});}
+     const primFile=slotFiles["certificate"]||slotFiles["passport"]||Object.values(slotFiles)[0];
+     const primPath=(files.find(x=>x.k==="certificate")||files.find(x=>x.k==="passport")||files[0]||{}).path||null;
+     const fp=await sha256File(primFile);
+     const g=id=>{const el=$("#"+id);return el?el.value:null;};
+     const{error}=await sb.from("documents").insert({ref_no:ref,service_type:chosen,doc_type:g("f_doc"),applicant_name:name,profession:g("f_prof"),phone:g("f_phone"),email:g("f_email"),passport_number:passport,origin:g("f_origin"),destination:g("f_dest"),mission:g("f_mission"),visa_name:(g("f_visa")||"").trim()||null,company_name:(g("f_company")||"").trim()||null,country:(g("f_country")||"").trim()||null,notes:(g("f_notes")||"").trim()||null,apostille:chosen==="apostille",status:"submitted",step:0,fingerprint:fp,file_path:primPath,files:files});
+     if(error)throw error;await logEvent("document_submitted",ref);await fetchDocs();toast(t.made2);
+     const d=state.docs.find(x=>x.ref_no===ref);state.view="tracking";state._sel=d?d.id:null;buildNav();chrome();renderView();
+   }catch(e){toast(e.message||"Error",true);btn.disabled=false;btn.textContent=t.create;}};
+ renderCards();}
 
 function vIntake(c){const t=L();const list=state.docs.filter(d=>d.status==="submitted");
  c.innerHTML=head(t.nav.intake,t.nav.intake,t.intake_p)+`<div class="card">${list.length?docTable(list,t.recv,"recv"):`<div class="empty">${esc(t.nointake)}</div>`}</div>`;
@@ -464,8 +521,8 @@ function vVerify(c){const t=L();const list=state.docs.filter(d=>d.status==="rece
   $("#vtools").innerHTML=`<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="dlbtn" style="flex:1;min-width:140px">⬇ ${esc(t.dl)}</button><button class="btn ghost" id="stbtn" style="flex:1;min-width:140px">🔍 ${esc(t.stamp_run)}</button></div><div id="stout"></div>`;
   $("#dlbtn").onclick=async()=>{try{await downloadOriginal(d);}catch(e){toast(e.message==="nofile"?t.dl_no:e.message,true);}};
   $("#stbtn").onclick=async function(){const b=this;b.disabled=true;b.innerHTML=`<span class="spin"></span>`;try{const r=await detectStampInk(d);stampDet=r.detected;$("#stout").innerHTML=`<div style="margin-top:10px"><span class="pill ${r.detected?"ok":"warn"}">${esc(r.detected?t.stamp_yes:t.stamp_no)}</span></div>`;}catch(e){$("#stout").innerHTML=`<div style="margin-top:10px;color:var(--bad);font-size:13px">${esc(e.message==="nofile"?t.dl_no:t.ocr_err)}</div>`;}finally{b.disabled=false;b.innerHTML=`🔍 ${esc(t.stamp_run)}`;}};
-  $("#vscan").innerHTML=`<div style="font-weight:600;color:var(--ink);margin-bottom:10px">${esc(svcName(d.service_type))} · ${esc(dName(d.doc_type))}</div><div style="font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">${esc(t.client_info)}</div><div style="font-size:13.5px;color:var(--steel);line-height:2">${esc(t.c_app)}: <b>${esc(d.applicant_name)}</b><br>${esc(t.f_passport)}: <b class="mono">${esc(d.passport_number||"—")}</b><br>${esc(t.f_phone)}: <b>${esc(d.phone||"—")}</b><br>${esc(t.f_email)}: <b>${esc(d.email||"—")}</b><br>${esc(t.f_prof)}: <b>${esc(d.profession||"—")}</b><br>${esc(t.f_dest)}: <b>${esc(d.destination||"—")}</b>${d.visa_name?`<br>${esc(t.f_visa)}: <b>${esc(d.visa_name)}</b>`:""}${d.company_name?`<br>${esc(t.f_company)}: <b>${esc(d.company_name)}</b>`:""}<br>${esc(t.c_id)}: <span class="mono">${esc(d.ref_no)}</span></div>${d.contract_path?`<button class="btn ghost sm" id="ctrdl" style="margin-top:10px">⬇ ${esc(t.dl_contract)}</button>`:""}`;
-  const cdl=$("#ctrdl");if(cdl)cdl.onclick=async()=>{try{const{data,error}=await sb.storage.from("documents").createSignedUrl(d.contract_path,300);if(error)throw error;window.open(data.signedUrl,"_blank");}catch(e){toast(e.message,true);}};
+  $("#vscan").innerHTML=`<div style="font-weight:600;color:var(--ink);margin-bottom:10px">${esc(svcName(d.service_type))} · ${esc(dName(d.doc_type))}</div><div style="font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">${esc(t.client_info)}</div><div style="font-size:13.5px;color:var(--steel);line-height:2">${esc(t.c_app)}: <b>${esc(d.applicant_name)}</b><br>${esc(t.f_passport)}: <b class="mono">${esc(d.passport_number||"—")}</b><br>${esc(t.f_phone)}: <b>${esc(d.phone||"—")}</b><br>${esc(t.f_email)}: <b>${esc(d.email||"—")}</b><br>${esc(t.f_prof)}: <b>${esc(d.profession||"—")}</b><br>${esc(t.f_dest)}: <b>${esc(d.destination||"—")}</b>${d.visa_name?`<br>${esc(t.f_visa)}: <b>${esc(d.visa_name)}</b>`:""}${d.company_name?`<br>${esc(t.f_company)}: <b>${esc(d.company_name)}</b>`:""}<br>${esc(t.c_id)}: <span class="mono">${esc(d.ref_no)}</span></div>${d.notes?`<div style="margin-top:8px;font-size:13px;color:var(--steel);background:var(--paper);border-radius:8px;padding:8px 10px" dir="auto"><b>${esc(t.f_notes)}:</b> ${esc(d.notes)}</div>`:""}<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:12px">${esc(t.files_lbl)}</div>${fileButtons(d)}`;
+  wireFiles($("#vscan"));
   $("#vfp").innerHTML=d.fingerprint?`<div class="fingerbox"><div class="fl">${esc(t.fp)}</div><div class="fv">${esc(d.fingerprint)}</div></div>`:"";
   $("#vocr").innerHTML=`<button class="btn ghost block" id="ocrbtn">🔎 ${esc(t.ocr_run)}</button><div id="ocrout"></div>`;
   $("#ocrbtn").onclick=async function(){const btn=this;btn.disabled=true;btn.innerHTML=`<span class="spin"></span> ${esc(t.ocr_running)} <span id="ocrp"></span>`;
@@ -571,8 +628,10 @@ function vTrack(c){const t=L();if(!state.docs.length){c.innerHTML=head(t.nav.tra
    <div class="kv"><span class="k">${esc(t.c_cust)}</span><span class="v"><span class="pill muted">${esc(t.custody[d.custody])}</span></span></div>
    ${d.verification_id?`<div class="kv"><span class="k">Verify ID</span><span class="v mono">${esc(d.verification_id)}</span></div>`:""}
    ${d.fingerprint?`<div style="margin-top:14px" class="fingerbox"><div class="fl">${esc(t.fp)}</div><div class="fv">${esc(d.fingerprint)}</div></div>`:""}
-   ${d.file_path&&(profile.role!=="client"||d.owner_id===session.user.id)?`<button class="btn ghost block" id="tdl" style="margin-top:14px">⬇ ${esc(t.dl)}</button>`:""}`;
-   const td=$("#tdl");if(td)td.onclick=async()=>{try{await downloadOriginal(d);}catch(e){toast(e.message==="nofile"?t.dl_no:e.message,true);}};};
+   ${d.verification_id&&["cleared","ready","handed"].includes(d.status)?`<div style="margin-top:16px;text-align:center"><div class="qrmini" id="tqr" style="margin:0 auto 8px"></div><p class="hairnote" style="margin:0">${esc(t.scan_hint)}</p></div>`:""}
+   ${(profile.role!=="client"||d.owner_id===session.user.id)&&((d.files&&d.files.length)||d.file_path)?`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:14px">${esc(t.files_lbl)}</div>${fileButtons(d)}`:""}`;
+   wireFiles($("#tm"));
+   if(d.verification_id&&["cleared","ready","handed"].includes(d.status)){const qb=$("#tqr");if(qb)try{new QRCode(qb,{text:location.origin+location.pathname+"?verify="+d.verification_id,width:128,height:128,colorDark:"#0E2740",colorLight:"#fff"});}catch(e){}}};
  $("#tsel").onchange=()=>{state._sel=$("#tsel").value;draw();};draw();}
 
 function vQR(c){const t=L();const sample=state.docs.find(d=>d.verification_id&&["cleared","ready","handed"].includes(d.status));
