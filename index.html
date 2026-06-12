@@ -32,16 +32,13 @@ button,input,select,textarea{font-family:inherit}button{cursor:pointer}
 .tabs{display:flex;background:var(--paper-2);border-radius:11px;padding:4px;margin-bottom:20px}.tabs button{flex:1;border:none;background:none;padding:9px;border-radius:8px;font-weight:600;font-size:14px;color:var(--muted)}.tabs button.on{background:#fff;color:var(--ink);box-shadow:var(--sh)}
 .authmsg{font-size:13px;margin-top:12px;padding:10px 12px;border-radius:9px;display:none}.authmsg.err{display:block;background:var(--bad-bg);color:var(--bad)}.authmsg.ok{display:block;background:var(--ok-bg);color:var(--ok)}
 #app{min-height:100vh;min-height:100dvh;display:block}
-.sidebar{background:linear-gradient(180deg,var(--ink),var(--ink-2));color:#cdd8e6;display:flex;flex-direction:column;padding:20px 14px;position:fixed;inset-block:0;width:min(84vw,280px);z-index:60;transition:transform .3s cubic-bezier(0.4,0,0.2,1);box-shadow:var(--sh-lg)}
-	html[dir="rtl"] .sidebar{inset-inline-end:0;transform:translateX(105%)}
-	html[dir="ltr"] .sidebar{inset-inline-start:0;transform:translateX(-105%)}
-	body.navopen .sidebar{transform:translateX(0)!important}
-.sidebar .lockup{padding:6px 8px 16px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:12px}.sidebar .lockup .name{font-size:25px;color:#fff}
-.nav{display:flex;flex-direction:column;gap:3px;overflow:auto;flex:1}
-.navitem{display:flex;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;color:#bcc9da;background:none;border:none;width:100%;text-align:start;font-size:14px;font-weight:500;transition:background .15s,color .15s}
-.navitem:hover{background:rgba(255,255,255,.07);color:#fff}.navitem.active{background:rgba(184,137,59,.18);color:#fff;box-shadow:inset 3px 0 0 var(--gold)}
-html[dir="ltr"] .navitem.active{box-shadow:inset -3px 0 0 var(--gold)}.navitem svg{flex:none}
-.sidefoot{padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:12px;color:#8ea0b6}
+.sidebar{display:none!important}
+	.nav-dropdown{position:absolute;top:100%;inset-inline-start:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--sh-lg);width:260px;padding:10px;display:none;flex-direction:column;gap:4px;z-index:100}
+	.nav-dropdown.show{display:flex}
+	.navitem{display:flex;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;color:var(--steel);background:none;border:none;width:100%;text-align:start;font-size:14px;font-weight:500;transition:background .15s,color .15s}
+	.navitem:hover{background:var(--paper-2);color:var(--ink)}.navitem.active{background:var(--ok-bg);color:var(--ok);font-weight:600}
+	.navitem svg{flex:none;color:var(--muted)}
+	.navitem.active svg{color:var(--ok)}
 .main{display:flex;flex-direction:column;min-width:0;width:100%}
 	html[dir="rtl"] .main{margin-right:0}
 	html[dir="ltr"] .main{margin-left:0}
@@ -136,13 +133,15 @@ body.navopen .scrim{opacity:1;pointer-events:auto}
 </section>
 
 <div id="app" class="hide">
-<aside class="sidebar" id="sidebar"><div class="lockup"><div class="seal" style="width:36px;height:36px" id="sealNav"></div><div class="name" style="font-size:25px">CertiLink</div></div>
-<nav class="nav" id="nav"></nav><div class="sidefoot"><div id="envline"></div><div style="margin-top:4px;color:#6f829a">© 2026 CertiLink</div></div></aside>
-<div class="scrim" id="scrim"></div>
-<div class="main"><header class="topbar"><button class="iconbtn menutoggle" id="menuToggle" style="height:38px">☰</button>
-<div class="crumb">CertiLink · <b id="crumbView">—</b></div><div class="spacer"></div>
-<button class="iconbtn" id="langBtn">EN / ع</button>
-<div class="who"><div class="av" id="avatar">··</div><div class="meta"><b id="whoName">—</b><span id="whoRole">—</span></div></div></header>
+<div id="app" class="hide">
+	<div class="main"><header class="topbar">
+	<div style="position:relative">
+	  <button class="iconbtn" id="menuToggle" style="height:38px;gap:10px">☰ <span id="curViewName">...</span></button>
+	  <div class="nav-dropdown" id="nav"></div>
+	</div>
+	<div class="spacer"></div>
+	<button class="iconbtn" id="langBtn">EN / ع</button>
+	<div class="who"><div class="av" id="avatar">··</div><div class="meta"><b id="whoName">—</b><span id="whoRole">—</span></div></div></header>
 <main class="content" id="content"></main></div></div>
 
 <script>
@@ -372,7 +371,7 @@ async function enterApp(){$("#auth").classList.add("hide");$("#setup").classList
 function applyStatusBanner(){const ex=document.getElementById("statusBanner");if(ex)ex.remove();if(profile&&profile.status&&profile.status!=="active"){const b=document.createElement("div");b.id="statusBanner";b.style.cssText="background:var(--bad-bg);color:var(--bad);padding:10px 16px;font-size:13.5px;text-align:center;font-weight:600";b.textContent=profile.status==="banned"?L().banner_banned:L().banner_susp;const m=document.querySelector(".main");m.insertBefore(b,m.children[1]||null);}}
 function buildNav(){const role=profile?.role||"client",nav=$("#nav");nav.innerHTML="";
  const ic={dashboard:'M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z',submit:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9z',intake:'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z',verify:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm-1.2 14.2l6-6-1.4-1.4-4.6 4.6-2-2L7.4 12z',payments:'M21 7H5a1 1 0 0 1 0-2h14V3H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h16V7zm-4 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z',batch:'M20 7l-8-4-8 4v10l8 4 8-4zm-8 2.2L7.5 7 12 4.8 16.5 7zM5 9l6 3v6l-6-3z',review:'M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5C21.3 7.6 17 4.5 12 4.5zm0 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z',custody:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm0 4a2 2 0 0 0-2 2v1H9v6h6v-6h-1V7a2 2 0 0 0-2-2zm0 1.5A.5.5 0 0 1 12.5 7v1h-1V7a.5.5 0 0 1 .5-.5z',tracking:'M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z',qr:'M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm10 0h2v2h-2zm4 0h2v2h-2zm-4 4h2v2h-2zm4 0h2v2h-2z',audit:'M9 11H7v6h2zm4-4h-2v10h2zm4 7h-2v3h2zM5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z',manage:'M19.4 13a7.5 7.5 0 0 0 0-2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7 7 0 0 0-1.7 1l-2.3-1-2 3.4L4.6 11a7.5 7.5 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7 7 0 0 0 1.7-1l2.3 1 2-3.4zM12 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6z',lookup:'M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z',precheck:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm-1.2 14.2l6-6-1.4-1.4-4.6 4.6-2-2L7.4 12z'};
- NAV_BY_ROLE[role].forEach(v=>{const b=document.createElement("button");b.className="navitem"+(v===state.view?" active":"");b.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="${ic[v]}"/></svg><span>${esc(L().nav[v])}</span>`;b.onclick=()=>{state.view=v;state._sel=null;document.body.classList.remove("navopen");buildNav();chrome();renderView();};nav.appendChild(b);});
+ NAV_BY_ROLE[role].forEach(v=>{const b=document.createElement("button");b.className="navitem"+(v===state.view?" active":"");if(v===state.view)$("#curViewName").textContent=L().nav[v];b.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="${ic[v]}"/></svg><span>${esc(L().nav[v])}</span>`;b.onclick=()=>{state.view=v;state._sel=null;$("#nav").classList.remove("show");buildNav();chrome();renderView();};nav.appendChild(b);});
  const out=document.createElement("button");out.className="navitem";out.style.marginTop="6px";out.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-9a2 2 0 0 0-2 2v4h2V5h9v14h-9v-4H9v4a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>${esc(L().nav.logout)}</span>`;out.onclick=async()=>{await sb.auth.signOut();};nav.appendChild(out);}
 function chrome(){$("#crumbView").textContent=L().nav[state.view];const nm=profile?.full_name||session.user.email;$("#whoName").textContent=nm;$("#whoRole").textContent=L().roles[profile?.role||"client"];$("#avatar").textContent=((nm||"·").trim()[0]||"·").toUpperCase();}
 function setupRT(){teardownRT();rt=sb.channel("rt").on("postgres_changes",{event:"*",schema:"public",table:"documents"},async()=>{await fetchDocs();if(["dashboard","tracking","intake","verify","payments","batch","review","custody"].includes(state.view))renderView();})
@@ -699,7 +698,7 @@ async function vManage(c){const t=L();
 /* ============ lang + events ============ */
 function setLang(l){state.lang=l;document.documentElement.lang=l;document.documentElement.dir=I[l].dir;if(session&&profile){buildNav();chrome();renderView();}else{paintAuth();}}
 function toggleLang(){setLang(state.lang==="ar"?"en":"ar");}
-function bindEvents(){$("#langBtn").onclick=toggleLang;$("#langAuth").onclick=toggleLang;$("#menuToggle").onclick=()=>document.body.classList.toggle("navopen");$("#scrim").onclick=()=>document.body.classList.remove("navopen");$("#tabIn").onclick=()=>{state.authMode="in";paintAuth();};$("#tabUp").onclick=()=>{state.authMode="up";paintAuth();};$("#a_go").onclick=doAuth;$("#a_forgot").onclick=doForgot;$("#a_pass").addEventListener("keydown",e=>{if(e.key==="Enter")doAuth();});}
+function bindEvents(){$("#langBtn").onclick=toggleLang;$("#langAuth").onclick=toggleLang;$("#menuToggle").onclick=(e)=>{e.stopPropagation();$("#nav").classList.toggle("show");};document.addEventListener("click",()=>$("#nav").classList.remove("show"));$("#nav").onclick=(e)=>e.stopPropagation();$("#tabIn").onclick=()=>{state.authMode="in";paintAuth();};$("#tabUp").onclick=()=>{state.authMode="up";paintAuth();};$("#a_go").onclick=doAuth;$("#a_forgot").onclick=doForgot;$("#a_pass").addEventListener("keydown",e=>{if(e.key==="Enter")doAuth();});}
 boot();
 </script>
 </body>
