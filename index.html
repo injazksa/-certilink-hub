@@ -39,6 +39,7 @@ body.navopen .sidebar{transform:translateX(0)!important}
 .sidebar .lockup{padding:6px 8px 16px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:12px}.sidebar .lockup .name{font-size:25px;color:#fff}
 .nav{display:flex;flex-direction:column;gap:3px;overflow:auto;flex:1}
 .navitem{display:flex;align-items:center;gap:12px;padding:10px 13px;border-radius:10px;color:#bcc9da;background:none;border:none;width:100%;text-align:start;font-size:14px;font-weight:500;transition:background .15s,color .15s}
+.navgroup{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7d93;padding:14px 13px 5px;margin-top:4px}
 .navitem:hover{background:rgba(255,255,255,.07);color:#fff}.navitem.active{background:rgba(184,137,59,.18);color:#fff;box-shadow:inset 3px 0 0 var(--gold)}
 html[dir="ltr"] .navitem.active{box-shadow:inset -3px 0 0 var(--gold)}.navitem svg{flex:none}
 .sidefoot{padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-size:12px;color:#8ea0b6}
@@ -46,6 +47,11 @@ html[dir="ltr"] .navitem.active{box-shadow:inset -3px 0 0 var(--gold)}.navitem s
 .topbar{height:64px;background:rgba(251,250,247,.88);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 clamp(14px,2.6vw,26px);position:sticky;top:0;z-index:20}
 .crumb{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.crumb b{color:var(--ink)}.topbar .spacer{margin-inline-start:auto}
 .iconbtn{background:var(--card);border:1px solid var(--line);border-radius:9px;height:38px;padding:0 13px;display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:500;font-size:13.5px}.iconbtn:hover{border-color:var(--gold)}
+.bellbadge{position:absolute;top:-6px;left:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:10px;background:var(--bad);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;line-height:1}
+.bellpanel{position:fixed;top:62px;width:min(92vw,360px);max-height:70vh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-lg);z-index:80;padding:8px}
+html[dir="rtl"] .bellpanel{left:12px}html[dir="ltr"] .bellpanel{right:12px}
+.bellitem{padding:11px 12px;border-radius:10px;border-bottom:1px solid var(--line)}.bellitem:last-child{border-bottom:none}.bellitem.unread{background:var(--paper)}
+.bellitem .bt{font-weight:600;color:var(--ink);font-size:13.5px}.bellitem .bb{color:var(--steel);font-size:12.5px;margin-top:2px;line-height:1.5}.bellitem .bd{color:var(--muted);font-size:11px;margin-top:4px}
 .who{display:flex;align-items:center;gap:10px}.who .av{width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
 .who .meta b{display:block;font-size:13.5px;color:var(--ink);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.who .meta span{font-size:11.5px;color:var(--muted)}
 .content{padding:clamp(20px,3vw,34px) var(--pad) 64px;max-width:1380px;width:100%;margin:0 auto}
@@ -138,6 +144,8 @@ body.navopen .scrim{opacity:1;pointer-events:auto}
 <div class="main"><header class="topbar"><button class="iconbtn menutoggle" id="menuToggle" style="height:38px">☰</button>
 <div class="crumb">CertiLink · <b id="crumbView">—</b></div><div class="spacer"></div>
 <button class="iconbtn" id="langBtn">EN / ع</button>
+<button class="iconbtn" id="bellBtn" style="position:relative"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm6-6v-5a6 6 0 0 0-4.5-5.8V4a1.5 1.5 0 0 0-3 0v1.2A6 6 0 0 0 6 11v5l-2 2v1h16v-1z"/></svg><span id="bellBadge" class="bellbadge hide">0</span></button>
+<div id="bellPanel" class="bellpanel hide"></div>
 <div class="who"><div class="av" id="avatar">··</div><div class="meta"><b id="whoName">—</b><span id="whoRole">—</span></div></div></header>
 <main class="content" id="content"></main></div></div>
 
@@ -152,6 +160,7 @@ const I={
 ar:{dir:"rtl",lang:"ar",cur:"د.أ",
  roles:{client:"العميل",staff:"موظف الاستقبال",verifier:"مدقّق التحقق",cashier:"المحاسب",courier:"المندوب",consul:"الموظف القنصلي",admin:"مدير المنصة"},
  nav:{dashboard:"لوحة القيادة",submit:"طلب جديد",intake:"استلام الأصول",verify:"محرك التحقق",payments:"المدفوعات",batch:"الدفعة اليومية",precheck:"فحص مسبق للسفارة",review:"مراجعة السفارة",lookup:"بحث برقم الجواز",custody:"عهدة الجواز",tracking:"التتبّع",qr:"تحقق عام (QR)",audit:"سجل التدقيق",archive:"الأرشيف والبحث",manage:"الإدارة",logout:"خروج"},
+ grp:{tx:"المعاملات",verify:"التحقق",embassy:"السفارة",admin:"الإدارة"},
  hero_h:"منصة موحّدة وآمنة للتصديق والتأشيرات القنصلية",hero_p:"من استلام الأصل في مكتبك إلى تخليص السفارة — تحقّق وتتبّع وثقة قابلة للإثبات.",
  assur:["استلام أصل موثّق","تحقّق من الختم الحيّ","بصمة SHA-256","تأكيد السفارة"],
  signin_k:"دخول آمن",auth_h:"الدخول إلى المنصة",auth_p:"مصادقة حقيقية عبر Supabase مع عزل صفوف (RLS).",
@@ -174,11 +183,16 @@ ar:{dir:"rtl",lang:"ar",cur:"د.أ",
  reqc_title:"طلب من العميل (مستند ناقص / توضيح)",reqc_hint:"اكتب للعميل بالضبط شو المطلوب — رح يظهرله على صفحته ويقدر يرفع ويرسل.",reqc_send:"إرسال الطلب للعميل",reqc_sent:"تم إرسال الطلب للعميل.",reqc_ph:"مثال: نحتاج صورة أوضح لجواز السفر، أو إرفاق شهادة حسن السيرة…",
  cr_banner:"طلب من المكتب",cr_upload:"ارفع المستند المطلوب",cr_send:"رفع وإرسال للمكتب",cr_done:"تم إرسال المستند للمكتب. شكراً.",
  trk_hint:"رقم التتبّع هو رقم المعاملة بالأعلى. احفظه وارجع لهالصفحة لمتابعة حالتك في أي وقت. عند اكتمال المعاملة سيظهر رمز QR للتحقق.",
+ copy_no:"نسخ رقم الطلب",copied:"تم النسخ ✓",print_label:"طباعة باركود",
  arch_p:"بحث سريع وأرشيف لكل المعاملات والجهات.",search_ph:"ابحث بالاسم، رقم الجواز، رقم المعاملة، الشركة، الإيميل…",res_none:"لا نتائج مطابقة.",all_tx:"كل المعاملات",res_count:"نتيجة",
  pending_ent:"جهات بانتظار الاعتماد",ent_none:"لا جهات معلّقة حالياً.",ent_docs:"مستندات الجهة",ent_approve:"اعتماد",ent_reject:"رفض",ent_reqdocs:"طلب مستندات",ent_req_ph:"اكتب المطلوب: السجل التجاري + رخصة المهن السارية…",approved_ok:"تم اعتماد الجهة.",rejected_ok:"تم الرفض.",ereq_sent:"تم إرسال الطلب للجهة.",ent_status:"الحالة",
  st_pending:"معلّق",st_approved:"معتمَد",st_rejected:"مرفوض",
  org_pending_banner:"حسابك (شركة/قنصلية) قيد الاعتماد من إدارة المنصة. ارفع السجل التجاري ورخصة المهن السارية ليتم تفعيل صلاحياتك.",
- org_req_label:"طلب من الإدارة",org_upload:"ارفع مستند (سجل تجاري / رخصة)",org_send:"رفع وإرسال للإدارة",org_sent:"تم إرسال المستند للإدارة.",org_docs_mine:"مستنداتك المرفوعة",org_approved_banner:"تم اعتماد جهتك ✓ — صلاحياتك مفعّلة.",req_title:"المتطلبات لهذه الخدمة",create:"إنشاء المعاملة",creating:"…",needfile:"اختر ملف الوثيقة.",made:"تم إنشاء المعاملة وتوليد البصمة.",
+ org_req_label:"طلب من الإدارة",org_upload:"ارفع مستند (سجل تجاري / رخصة)",org_send:"رفع وإرسال للإدارة",org_sent:"تم إرسال المستند للإدارة.",org_docs_mine:"مستنداتك المرفوعة",org_approved_banner:"تم اعتماد جهتك ✓ — صلاحياتك مفعّلة.",
+ embassy_pending_banner:"حساب السفارة/القنصلية قيد التفعيل من إدارة المنصة — بدون طلب أوراق. سيصلك إشعار عند التفعيل.",
+ notif_title:"الإشعارات",notif_none:"لا إشعارات بعد.",notif_allread:"تحديد الكل كمقروء",
+ bc_title:"إرسال إشعار للمشتركين",bc_aud:"إلى",bc_all:"الجميع",bc_clients:"العملاء (أفراد)",bc_companies:"الشركات",bc_consul:"السفارات/القنصليات",bc_t:"العنوان",bc_b:"المحتوى",bc_send:"إرسال الإشعار",bc_sent:"تم إرسال الإشعار.",bc_need:"اكتب عنواناً ومحتوى.",
+ n_new_tx:"معاملة جديدة",n_new_tx_b:"تم تقديم معاملة جديدة بحاجة لمراجعة.",req_title:"المتطلبات لهذه الخدمة",create:"إنشاء المعاملة",creating:"…",needfile:"اختر ملف الوثيقة.",made:"تم إنشاء المعاملة وتوليد البصمة.",
  intake_p:"المعاملات الواردة بانتظار استلام الأصل.",recv:"تأكيد استلام الأصل",recvd:"تم استلام الأصل وتسجيله بالعهدة.",nointake:"لا أصول بانتظار الاستلام.",
  verify_p:"راجع الأصل، أكّد الأختام الحيّة والمطابقة، ثم اقفل التحقق.",pickdoc:"المعاملة",chk_orig:"الأصل بحوزتي ومُتحقَّق منه",chk_match:"الحقول مطابقة عبر الوثائق",lock:"قفل التحقق وإصدار البصمة",locked:"تم التحقق وقفل السجل.",allreq:"أكّد كل البنود أولاً.",onlyrecv:"تظهر هنا المعاملات بعد استلام الأصل.",reqstamps:"الأختام/المتطلبات المطلوبة",
  pay_p:"تحصيل الرسوم وإصدار إيصال عليه QR.",pay_office:"رسوم المكتب",pay_mission:"رسوم السفارة",pay_method:"طريقة الدفع",collect:"تحصيل وإصدار إيصال",paid_ok:"تم الدفع وإصدار الإيصال.",nopay:"لا معاملات بانتظار الدفع.",receipt:"إيصال",total:"الإجمالي",methods:{cash:"نقد",card:"بطاقة",wallet:"محفظة",online:"أونلاين"},
@@ -210,6 +224,7 @@ ar:{dir:"rtl",lang:"ar",cur:"د.أ",
 en:{dir:"ltr",lang:"en",cur:"JOD",
  roles:{client:"Client",staff:"Front-desk",verifier:"Verification Officer",cashier:"Cashier",courier:"Courier",consul:"Consular Official",admin:"Admin"},
  nav:{dashboard:"Dashboard",submit:"New Request",intake:"Receive Originals",verify:"Verification",payments:"Payments",batch:"Daily Batch",precheck:"Embassy Pre-check",review:"Embassy Review",lookup:"Passport Lookup",custody:"Passport Custody",tracking:"Tracking",qr:"Public Verify",audit:"Audit Trail",archive:"Archive & Search",manage:"Management",logout:"Sign out"},
+ grp:{tx:"Transactions",verify:"Verification",embassy:"Embassy",admin:"Administration"},
  hero_h:"A unified, secure platform for consular attestation & visas",hero_p:"From receiving the original at your office to embassy clearance — verify, track, and provable trust.",
  assur:["Verified original intake","Live-stamp check","SHA-256 fingerprint","Mission confirmation"],
  signin_k:"Secure sign-in",auth_h:"Sign in",auth_p:"Real Supabase auth with Row-Level Security.",
@@ -232,11 +247,16 @@ en:{dir:"ltr",lang:"en",cur:"JOD",
  reqc_title:"Request from client (missing doc / clarification)",reqc_hint:"Tell the client exactly what is needed — it shows on their page and they can upload and send.",reqc_send:"Send request to client",reqc_sent:"Request sent to the client.",reqc_ph:"e.g. We need a clearer passport copy, or attach the good-conduct certificate…",
  cr_banner:"Request from the office",cr_upload:"Upload the requested document",cr_send:"Upload & send to office",cr_done:"Document sent to the office. Thank you.",
  trk_hint:"Your tracking number is the transaction ID above. Save it and return to this page anytime to follow your status. A QR code appears once the transaction is complete.",
+ copy_no:"Copy request no.",copied:"Copied ✓",print_label:"Print barcode",
  arch_p:"Fast search and archive for all transactions and entities.",search_ph:"Search by name, passport, transaction no., company, email…",res_none:"No matching results.",all_tx:"All transactions",res_count:"results",
  pending_ent:"Entities awaiting approval",ent_none:"No pending entities.",ent_docs:"Entity documents",ent_approve:"Approve",ent_reject:"Reject",ent_reqdocs:"Request documents",ent_req_ph:"State what is required: commercial registration + valid professional license…",approved_ok:"Entity approved.",rejected_ok:"Rejected.",ereq_sent:"Request sent to the entity.",ent_status:"Status",
  st_pending:"Pending",st_approved:"Approved",st_rejected:"Rejected",
  org_pending_banner:"Your (company/consulate) account is pending platform approval. Upload your commercial registration and valid professional license to activate your permissions.",
- org_req_label:"Request from admin",org_upload:"Upload a document (registration / license)",org_send:"Upload & send to admin",org_sent:"Document sent to admin.",org_docs_mine:"Your uploaded documents",org_approved_banner:"Your entity is approved ✓ — permissions active.",req_title:"Requirements for this service",create:"Create transaction",creating:"…",needfile:"Choose a document file.",made:"Transaction created and fingerprint generated.",
+ org_req_label:"Request from admin",org_upload:"Upload a document (registration / license)",org_send:"Upload & send to admin",org_sent:"Document sent to admin.",org_docs_mine:"Your uploaded documents",org_approved_banner:"Your entity is approved ✓ — permissions active.",
+ embassy_pending_banner:"Your embassy/consulate account is being activated by the platform admin — no documents required. You'll be notified once active.",
+ notif_title:"Notifications",notif_none:"No notifications yet.",notif_allread:"Mark all as read",
+ bc_title:"Send a notification",bc_aud:"To",bc_all:"Everyone",bc_clients:"Clients (individuals)",bc_companies:"Companies",bc_consul:"Embassies/Consulates",bc_t:"Title",bc_b:"Body",bc_send:"Send notification",bc_sent:"Notification sent.",bc_need:"Enter a title and body.",
+ n_new_tx:"New transaction",n_new_tx_b:"A new transaction was submitted for review.",req_title:"Requirements for this service",create:"Create transaction",creating:"…",needfile:"Choose a document file.",made:"Transaction created and fingerprint generated.",
  intake_p:"Incoming transactions awaiting original receipt.",recv:"Confirm original received",recvd:"Original received and placed in custody.",nointake:"No originals awaiting receipt.",
  verify_p:"Review the original, confirm live stamps and matching, then lock the verification.",pickdoc:"Transaction",chk_orig:"Original in hand & verified",chk_match:"Fields match across documents",lock:"Lock verification & issue fingerprint",locked:"Verified and record locked.",allreq:"Confirm all items first.",onlyrecv:"Transactions appear here after the original is received.",reqstamps:"Required stamps/items",
  pay_p:"Collect fees and issue a QR receipt.",pay_office:"Office fee",pay_mission:"Mission fee",pay_method:"Payment method",collect:"Collect & issue receipt",paid_ok:"Paid and receipt issued.",nopay:"No transactions awaiting payment.",receipt:"Receipt",total:"Total",methods:{cash:"Cash",card:"Card",wallet:"Wallet",online:"Online"},
@@ -273,8 +293,10 @@ const NAV_BY_ROLE={
  cashier:["dashboard","payments","tracking"],
  courier:["dashboard","batch","tracking"],
  consul:["dashboard","precheck","review","lookup","qr","audit"],
- admin:["dashboard","submit","intake","verify","payments","batch","precheck","review","lookup","custody","tracking","qr","audit","archive","manage"]
+ admin:["dashboard","intake","verify","payments","batch","custody","tracking","precheck","review","lookup","qr","audit","archive","manage"]
 };
+const GROUP_OF={dashboard:"main",submit:"tx",tracking:"tx",intake:"tx",payments:"tx",batch:"tx",custody:"tx",verify:"verify",qr:"verify",lookup:"verify",precheck:"embassy",review:"embassy",audit:"admin",archive:"admin",manage:"admin"};
+const GROUP_ORDER=["main","tx","verify","embassy","admin"];
 const REQS={attestation:["issuer_stamp","mofa_stamp","notary_stamp"],visa:["valid_passport","photo","app_form","booking"],apostille:["issuer_stamp","apostille_stamp","cert_translation"]};
 const FILE_SLOTS={
  attestation:[{k:"passport",req:true},{k:"certificate",req:true},{k:"residence",req:false},{k:"extra",req:false}],
@@ -298,7 +320,7 @@ const SOURCE_AUTH=[
 const STEP_OF={submitted:0,received:1,verified:2,paid:3,dispatched:4,mission_review:5,cleared:6,ready:7,handed:8,flagged:1};
 
 /* ============ state ============ */
-const state={lang:"ar",authMode:"in",view:"dashboard",docs:[],fees:null,docProfiles:null,recovery:false,_sel:null};
+const state={lang:"ar",authMode:"in",view:"dashboard",docs:[],fees:null,docProfiles:null,recovery:false,notifs:[],_sel:null};
 let sb=null,session=null,profile=null,rt=null,appReady=false;
 const L=()=>I[state.lang];const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -318,9 +340,23 @@ const svcName=s=>L().services[s]||s,dName=d=>L().docTypes[d]||d;
 const fmt=d=>new Date(d).toLocaleString(state.lang==="ar"?"ar-JO":"en-GB",{hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).replace(",","");
 function fileButtons(d){const t=L();let arr=(d.files&&d.files.length)?d.files.slice():[];if(!arr.length&&d.file_path)arr.push({k:"main",path:d.file_path});if(d.contract_path)arr.push({k:"contract",path:d.contract_path});if(!arr.length)return "";return `<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">${arr.map(f=>`<button class="btn ghost sm" data-fp="${esc(f.path)}">⬇ ${esc(SLOT_LABEL[state.lang][f.k]||(f.k==="contract"?t.dl_contract:t.dl))}</button>`).join("")}</div>`;}
 function wireFiles(container){container.querySelectorAll("[data-fp]").forEach(b=>b.onclick=async()=>{b.disabled=true;try{const{data,error}=await sb.storage.from("documents").createSignedUrl(b.getAttribute("data-fp"),300);if(error)throw error;window.open(data.signedUrl,"_blank");}catch(e){toast(e.message,true);}finally{b.disabled=false;}});}
+function copyText(txt){const done=()=>toast(L().copied);try{navigator.clipboard.writeText(txt).then(done,()=>{});}catch(e){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(_){}ta.remove();}}
+function printLabel(d){const url=d.verification_id?location.origin+location.pathname+"?verify="+d.verification_id:String(d.ref_no);const w=window.open("","_blank");if(!w){toast("Popup blocked",true);return;}
+ w.document.write('<!doctype html><html dir="ltr"><head><meta charset="utf-8"><title>'+esc(d.ref_no)+'</title><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script><style>body{font-family:system-ui,sans-serif;text-align:center;padding:28px;color:#0E2740}.r{font-size:24px;font-weight:800;letter-spacing:1px}.n{color:#555;margin-top:6px;font-size:14px}#q{display:flex;justify-content:center;margin:16px 0}</style></head><body><div class="r">'+esc(d.ref_no)+'</div><div class="n">'+esc((d.applicant_name||"")+" · "+svcName(d.service_type))+'</div><div id="q"></div><script>new QRCode(document.getElementById("q"),{text:'+JSON.stringify(url)+',width:190,height:190,colorDark:"#0E2740"});setTimeout(function(){window.print();},600);<\/script></body></html>');
+ w.document.close();}
 
 /* ============ data ============ */
 async function loadProfile(){const{data}=await sb.from("profiles").select("*").eq("id",session.user.id).maybeSingle();return data;}
+async function fetchNotifs(){try{const{data}=await sb.from("app_notifications").select("*").order("created_at",{ascending:false}).limit(30);state.notifs=data||[];}catch(e){state.notifs=[];}renderBell();}
+function renderBell(){const badge=$("#bellBadge");if(!badge)return;const unread=state.notifs.filter(n=>!n.read).length;badge.textContent=unread>9?"9+":unread;badge.classList.toggle("hide",unread===0);}
+async function toggleBell(){const p=$("#bellPanel");const t=L();const open=p.classList.contains("hide");if(!open){p.classList.add("hide");return;}
+ p.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px 10px"><b style="color:var(--ink)">${esc(t.notif_title)}</b>${state.notifs.some(n=>!n.read)?`<button class="btn ghost sm" id="bellread">${esc(t.notif_allread)}</button>`:""}</div>`+
+  (state.notifs.length?state.notifs.map(n=>`<div class="bellitem ${n.read?"":"unread"}"><div class="bt">${esc(n.title)}</div>${n.body?`<div class="bb" dir="auto">${esc(n.body)}</div>`:""}<div class="bd">${esc(fmt(n.created_at))}${n.ref?" · "+esc(n.ref):""}</div></div>`).join(""):`<div class="empty" style="padding:24px">${esc(t.notif_none)}</div>`);
+ p.classList.remove("hide");
+ const rb=$("#bellread");if(rb)rb.onclick=async()=>{await markAllRead();};
+ // mark read on open (after a moment)
+ const unreadIds=state.notifs.filter(n=>!n.read).map(n=>n.id);if(unreadIds.length){try{await sb.from("app_notifications").update({read:true}).in("id",unreadIds);state.notifs.forEach(n=>n.read=true);renderBell();}catch(e){}}}
+async function markAllRead(){const ids=state.notifs.filter(n=>!n.read).map(n=>n.id);if(ids.length)try{await sb.from("app_notifications").update({read:true}).in("id",ids);state.notifs.forEach(n=>n.read=true);}catch(e){}renderBell();$("#bellPanel").classList.add("hide");}
 async function fetchDocs(){const{data,error}=await sb.from("documents").select("*").order("created_at",{ascending:false});if(error)console.warn(error.message);state.docs=data||[];}
 async function logEvent(action,entity){try{await sb.from("audit_log").insert({action,entity:entity||null,actor_name:profile?.full_name||session.user.email});}catch(e){}}
 async function updateDoc(id,patch,action,entity){const{error}=await sb.from("documents").update(patch).eq("id",id);if(error)throw error;if(action)await logEvent(action,entity);await fetchDocs();}
@@ -379,16 +415,20 @@ async function doForgot(){const t=L(),email=$("#a_email").value.trim(),msg=$("#a
 /* ============ shell ============ */
 async function enterApp(){$("#auth").classList.add("hide");$("#setup").classList.add("hide");$("#app").classList.remove("hide");$("#sealNav").innerHTML=sealSVG();document.documentElement.lang=L().lang;document.documentElement.dir=L().dir;
  const role=profile?.role||"client";if(!NAV_BY_ROLE[role].includes(state.view))state.view=NAV_BY_ROLE[role][0];
- $("#envline").textContent=L().lang==="ar"?"متصلة بـSupabase · v3.0":"Connected to Supabase · v3.0";
- await fetchDocs();await fetchFees();await fetchDocProfiles();setupRT();await logEvent("sign_in");buildNav();chrome();renderView();applyStatusBanner();appReady=true;}
+ $("#envline").textContent="CertiLink · v3.2";
+ await fetchDocs();await fetchFees();await fetchDocProfiles();await fetchNotifs();setupRT();await logEvent("sign_in");buildNav();chrome();renderView();applyStatusBanner();appReady=true;}
 function applyStatusBanner(){const ex=document.getElementById("statusBanner");if(ex)ex.remove();if(profile&&profile.status&&profile.status!=="active"){const b=document.createElement("div");b.id="statusBanner";b.style.cssText="background:var(--bad-bg);color:var(--bad);padding:10px 16px;font-size:13.5px;text-align:center;font-weight:600";b.textContent=profile.status==="banned"?L().banner_banned:L().banner_susp;const m=document.querySelector(".main");m.insertBefore(b,m.children[1]||null);}}
 function buildNav(){const role=profile?.role||"client",nav=$("#nav");nav.innerHTML="";
  const ic={dashboard:'M3 13h8V3H3zm0 8h8v-6H3zm10 0h8V11h-8zm0-18v6h8V3z',submit:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9z',intake:'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14l-4-4 1.4-1.4L10 14.2l6.6-6.6L18 9z',verify:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm-1.2 14.2l6-6-1.4-1.4-4.6 4.6-2-2L7.4 12z',payments:'M21 7H5a1 1 0 0 1 0-2h14V3H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h16V7zm-4 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4z',batch:'M20 7l-8-4-8 4v10l8 4 8-4zm-8 2.2L7.5 7 12 4.8 16.5 7zM5 9l6 3v6l-6-3z',review:'M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5C21.3 7.6 17 4.5 12 4.5zm0 12a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9zm0-7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z',custody:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm0 4a2 2 0 0 0-2 2v1H9v6h6v-6h-1V7a2 2 0 0 0-2-2zm0 1.5A.5.5 0 0 1 12.5 7v1h-1V7a.5.5 0 0 1 .5-.5z',tracking:'M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z',qr:'M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm10 0h2v2h-2zm4 0h2v2h-2zm-4 4h2v2h-2zm4 0h2v2h-2z',audit:'M9 11H7v6h2zm4-4h-2v10h2zm4 7h-2v3h2zM5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z',manage:'M19.4 13a7.5 7.5 0 0 0 0-2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1l-.4-2.5h-4l-.4 2.5a7 7 0 0 0-1.7 1l-2.3-1-2 3.4L4.6 11a7.5 7.5 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7 7 0 0 0 1.7-1l2.3 1 2-3.4zM12 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6z',lookup:'M10 2a8 8 0 1 0 4.9 14.3l5.4 5.4 1.4-1.4-5.4-5.4A8 8 0 0 0 10 2zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z',precheck:'M12 1l9 4v6c0 5.25-3.6 9.74-9 11-5.4-1.26-9-5.75-9-11V5zm-1.2 14.2l6-6-1.4-1.4-4.6 4.6-2-2L7.4 12z',archive:'M3 4h18v4H3zm1 6h16v10H4zm5 3v2h6v-2z'};
- NAV_BY_ROLE[role].forEach(v=>{const b=document.createElement("button");b.className="navitem"+(v===state.view?" active":"");b.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="${ic[v]}"/></svg><span>${esc(L().nav[v])}</span>`;b.onclick=()=>{state.view=v;state._sel=null;document.body.classList.remove("navopen");buildNav();chrome();renderView();};nav.appendChild(b);});
+ const items=NAV_BY_ROLE[role],Lr=L();
+ GROUP_ORDER.forEach(g=>{const gi=items.filter(v=>GROUP_OF[v]===g);if(!gi.length)return;
+   if(g!=="main"){const h=document.createElement("div");h.className="navgroup";h.textContent=Lr.grp[g];nav.appendChild(h);}
+   gi.forEach(v=>{const b=document.createElement("button");b.className="navitem"+(v===state.view?" active":"");b.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="${ic[v]}"/></svg><span>${esc(Lr.nav[v])}</span>`;b.onclick=()=>{state.view=v;state._sel=null;document.body.classList.remove("navopen");buildNav();chrome();renderView();};nav.appendChild(b);});});
  const out=document.createElement("button");out.className="navitem";out.style.marginTop="6px";out.innerHTML=`<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-9a2 2 0 0 0-2 2v4h2V5h9v14h-9v-4H9v4a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>${esc(L().nav.logout)}</span>`;out.onclick=async()=>{await sb.auth.signOut();};nav.appendChild(out);}
 function chrome(){$("#crumbView").textContent=L().nav[state.view];const nm=profile?.full_name||session.user.email;$("#whoName").textContent=nm;$("#whoRole").textContent=L().roles[profile?.role||"client"];$("#avatar").textContent=((nm||"·").trim()[0]||"·").toUpperCase();}
 function setupRT(){teardownRT();rt=sb.channel("rt").on("postgres_changes",{event:"*",schema:"public",table:"documents"},async()=>{await fetchDocs();if(["dashboard","tracking","intake","verify","payments","batch","review","custody"].includes(state.view))renderView();})
  .on("postgres_changes",{event:"UPDATE",schema:"public",table:"profiles",filter:"id=eq."+session.user.id},async()=>{const old=profile;profile=await loadProfile();if(!profile)return;if(profile.status==="banned"){await sb.auth.signOut();return;}if(old&&old.role!==profile.role&&!NAV_BY_ROLE[profile.role].includes(state.view))state.view=NAV_BY_ROLE[profile.role][0];buildNav();chrome();renderView();applyStatusBanner();})
+ .on("postgres_changes",{event:"*",schema:"public",table:"app_notifications"},async()=>{await fetchNotifs();})
  .subscribe();}
 function teardownRT(){if(rt){sb.removeChannel(rt);rt=null;}}
 
@@ -407,15 +447,23 @@ async function pdfFirstPageToCanvas(blob){
 }
 function normAr(s){return String(s||"").replace(/[\u064B-\u0652]/g,"").replace(/[إأآا]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه").replace(/\s+/g," ").trim().toLowerCase();}
 function nameMatches(name,text){const nt=normAr(text);const parts=normAr(name).split(" ").filter(p=>p.length>=2);if(!parts.length)return false;let hit=0;parts.forEach(p=>{if(nt.includes(p))hit++;});return hit>=Math.min(2,parts.length);}
+async function pdfAllPagesToCanvases(blob,maxPages){
+ await ensurePdfjs();const buf=await blob.arrayBuffer();
+ if(window.pdfjsLib&&pdfjsLib.GlobalWorkerOptions){try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";}catch(e){}}
+ const pdf=await pdfjsLib.getDocument({data:buf}).promise;const n=Math.min(pdf.numPages,maxPages||10);const out=[];
+ for(let i=1;i<=n;i++){const page=await pdf.getPage(i);const vp=page.getViewport({scale:2});const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;await page.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise;out.push(cv);}
+ return out;
+}
 async function runOCR(d,onProgress){
  await ensureTesseract();
  if(!d.file_path) throw new Error("nofile");
  const{data:blob,error}=await sb.storage.from("documents").download(d.file_path);
  if(error||!blob) throw new Error(error?error.message:"download failed");
  const isPdf=(blob.type==="application/pdf")||/\.pdf$/i.test(d.file_path);
- const src=isPdf?await pdfFirstPageToCanvas(blob):URL.createObjectURL(blob);
+ if(isPdf){const canvases=await pdfAllPagesToCanvases(blob,10);let all="";for(let i=0;i<canvases.length;i++){if(onProgress)onProgress(Math.round((i/canvases.length)*100));const{data:{text}}=await Tesseract.recognize(canvases[i],"ara+eng");all+=(text||"")+"\n\n";}if(onProgress)onProgress(100);return all;}
+ const src=URL.createObjectURL(blob);
  const{data:{text}}=await Tesseract.recognize(src,"ara+eng",{logger:m=>{if(onProgress&&m.status==="recognizing text")onProgress(Math.round(m.progress*100));}});
- if(!isPdf) try{URL.revokeObjectURL(src);}catch(e){}
+ try{URL.revokeObjectURL(src);}catch(e){}
  return text||"";
 }
 async function downloadOriginal(d){
@@ -453,6 +501,7 @@ function vDash(c){const t=L();const cnt=s=>state.docs.filter(d=>d.status===s).le
  let orgFile=null;const isOrg=["company","embassy"].includes(profile?.account_type);
  const orgBlock=()=>{if(!isOrg)return"";const st=profile.org_status||"pending";
    if(st==="approved")return `<div class="card pad" style="margin-bottom:18px;border-color:var(--ok);background:var(--ok-bg);color:var(--ok);font-weight:600">${esc(t.org_approved_banner)}</div>`;
+   if(profile.account_type==="embassy")return `<div class="card pad" style="margin-bottom:18px;border-color:var(--gold);background:var(--warn-bg)"><div style="font-weight:700;color:var(--gold-deep)">⚑ ${esc(t.embassy_pending_banner)}</div>${profile.org_request?`<div style="font-size:13.5px;color:var(--ink);margin-top:8px;padding:8px 10px;background:#fff;border-radius:8px" dir="auto"><b>${esc(t.org_req_label)}:</b> ${esc(profile.org_request)}</div>`:""}</div>`;
    return `<div class="card pad" style="margin-bottom:18px;border-color:var(--gold);background:var(--warn-bg)">
      <div style="font-weight:700;color:var(--gold-deep);margin-bottom:6px">⚑ ${esc(t.org_pending_banner)}</div>
      ${profile.org_request?`<div style="font-size:13.5px;color:var(--ink);margin:8px 0;padding:8px 10px;background:#fff;border-radius:8px" dir="auto"><b>${esc(t.org_req_label)}:</b> ${esc(profile.org_request)}</div>`:""}
@@ -460,11 +509,14 @@ function vDash(c){const t=L();const cnt=s=>state.docs.filter(d=>d.status===s).le
      <button class="btn gold block" id="orgsend" style="margin-top:10px">${esc(t.org_send)}</button>
      ${(profile.org_docs&&profile.org_docs.length)?`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:12px">${esc(t.org_docs_mine)}</div>${fileButtons({files:profile.org_docs})}`:""}
    </div>`;};
- c.innerHTML=head(t.ov,t.welcome+"، "+(profile?.full_name||session.user.email),t.ovp)+orgBlock()
+ const needs=state.docs.filter(d=>d.client_request);
+ const clientAlert=needs.length?`<div class="card pad" style="margin-bottom:18px;border-color:var(--gold);background:var(--warn-bg)"><div style="font-weight:700;color:var(--gold-deep);margin-bottom:6px">⚑ ${esc(t.cr_banner)} (${needs.length})</div><div style="font-size:13.5px;color:var(--ink);margin-bottom:10px">${state.lang==="ar"?"في مستندات ناقصة مطلوبة منك — افتح التتبّع لإكمالها وإرسالها.":"You have requested documents — open Tracking to complete and send them."}</div><button class="btn gold" id="goNeeds">${esc(t.nav.tracking)} ←</button></div>`:"";
+ c.innerHTML=head(t.ov,t.welcome+"، "+(profile?.full_name||session.user.email),t.ovp)+orgBlock()+clientAlert
  +`<div class="grid stats">${stat(t.status.submitted,cnt("submitted")+cnt("received"))}${stat(t.status.verified,cnt("verified")+cnt("paid"))}${stat(t.status.mission_review,cnt("dispatched")+cnt("mission_review"))}${stat(t.status.cleared,cnt("cleared")+cnt("ready")+cnt("handed"))}</div>
  <div class="sectionhead"><h2>${esc(t.recent)}</h2><div class="gline"></div></div>
  <div class="card">${state.docs.length?docTable(state.docs):`<div class="empty">${esc(t.noDocs)}</div>`}</div>`;
  wire(c,"track",id=>{state.view="tracking";state._sel=id;buildNav();chrome();renderView();});
+ const gn=$("#goNeeds");if(gn)gn.onclick=()=>{state.view="tracking";state._sel=needs[0].id;buildNav();chrome();renderView();};
  wireFiles(c);
  const ob=$("#orgbox");if(ob){ob.onclick=()=>$("#orgfile").click();$("#orgfile").onchange=e=>{orgFile=e.target.files[0];if(orgFile&&orgFile.size>26214400){toast(t.too_big+" "+orgFile.name,true);orgFile=null;$("#orgfile").value="";$("#orgname").textContent=t.org_upload;return;}$("#orgname").innerHTML=orgFile?`<b>${esc(orgFile.name)}</b>`:esc(t.org_upload);};
   $("#orgsend").onclick=async function(){if(!orgFile){toast(t.org_upload,true);return;}this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const path="orgs/"+session.user.id+"/"+Date.now()+"-"+orgFile.name.replace(/[^\w.\-]/g,"_");const{error:upErr}=await sb.storage.from("documents").upload(path,orgFile);if(upErr)throw new Error(t.upload_failed+": "+upErr.message);const{error}=await sb.rpc("org_submit_docs",{p_file:{k:"org",label:"مستند جهة",path,name:orgFile.name}});if(error)throw error;profile=await loadProfile();await logEvent("org_doc_submitted");toast(t.org_sent);renderView();}catch(e){toast(e.message,true);this.disabled=false;this.textContent=t.org_send;}};}}
@@ -519,7 +571,7 @@ function vSubmit(c){const t=L();let chosen=null;const slotFiles={};
      const fp=await sha256File(primFile);
      const g=id=>{const el=$("#"+id);return el?el.value:null;};
      const{error}=await sb.from("documents").insert({ref_no:ref,service_type:chosen,doc_type:g("f_doc"),applicant_name:name,profession:g("f_prof"),phone:g("f_phone"),email:g("f_email"),passport_number:passport,origin:g("f_origin"),destination:g("f_dest"),mission:g("f_mission"),visa_name:(g("f_visa")||"").trim()||null,company_name:(g("f_company")||"").trim()||null,country:(g("f_country")||"").trim()||null,notes:(g("f_notes")||"").trim()||null,apostille:chosen==="apostille",status:"submitted",step:0,fingerprint:fp,file_path:primPath,files:files});
-     if(error)throw error;await logEvent("document_submitted",ref);await fetchDocs();toast(t.made2);
+     if(error)throw error;await logEvent("document_submitted",ref);try{await sb.from("app_notifications").insert({recipient_role:"admin",title:t.n_new_tx,body:t.n_new_tx_b,ref});}catch(e){}await fetchDocs();toast(t.made2);
      const d=state.docs.find(x=>x.ref_no===ref);state.view="tracking";state._sel=d?d.id:null;buildNav();chrome();renderView();
    }catch(e){toast(e.message||"Error",true);btn.disabled=false;btn.textContent=t.create;}};
  renderCards();}
@@ -549,7 +601,7 @@ function vVerify(c){const t=L();const list=state.docs.filter(d=>d.status==="rece
   $("#vscan").innerHTML=`<div style="font-weight:600;color:var(--ink);margin-bottom:10px">${esc(svcName(d.service_type))} · ${esc(dName(d.doc_type))}</div><div style="font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">${esc(t.client_info)}</div><div style="font-size:13.5px;color:var(--steel);line-height:2">${esc(t.c_app)}: <b>${esc(d.applicant_name)}</b><br>${esc(t.f_passport)}: <b class="mono">${esc(d.passport_number||"—")}</b><br>${esc(t.f_phone)}: <b>${esc(d.phone||"—")}</b><br>${esc(t.f_email)}: <b>${esc(d.email||"—")}</b><br>${esc(t.f_prof)}: <b>${esc(d.profession||"—")}</b><br>${esc(t.f_dest)}: <b>${esc(d.destination||"—")}</b>${d.visa_name?`<br>${esc(t.f_visa)}: <b>${esc(d.visa_name)}</b>`:""}${d.company_name?`<br>${esc(t.f_company)}: <b>${esc(d.company_name)}</b>`:""}<br>${esc(t.c_id)}: <span class="mono">${esc(d.ref_no)}</span></div>${d.notes?`<div style="margin-top:8px;font-size:13px;color:var(--steel);background:var(--paper);border-radius:8px;padding:8px 10px" dir="auto"><b>${esc(t.f_notes)}:</b> ${esc(d.notes)}</div>`:""}<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:12px">${esc(t.files_lbl)}</div>${fileButtons(d)}`;
   wireFiles($("#vscan"));
   $("#vreq").innerHTML=`<div class="card pad"><div class="sectionhead" style="margin:0 0 6px"><h2>${esc(t.reqc_title)}</h2></div><p class="hairnote" style="margin:0 0 10px">${esc(t.reqc_hint)}</p><textarea class="inp" id="vreqmsg" rows="2" placeholder="${esc(t.reqc_ph)}" dir="auto">${esc(d.client_request||"")}</textarea><button class="btn gold block" id="vreqbtn" style="margin-top:10px">${esc(t.reqc_send)}</button></div>`;
-  $("#vreqbtn").onclick=async function(){const msg=$("#vreqmsg").value.trim();if(!msg)return;this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const{error}=await sb.from("documents").update({client_request:msg}).eq("id",d.id);if(error)throw error;await notify(d,"client_request");await logEvent("client_request",d.ref_no);toast(t.reqc_sent);}catch(e){toast(e.message,true);}finally{this.disabled=false;this.textContent=t.reqc_send;}};
+  $("#vreqbtn").onclick=async function(){const msg=$("#vreqmsg").value.trim();if(!msg)return;this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const{error}=await sb.from("documents").update({client_request:msg}).eq("id",d.id);if(error)throw error;try{await sb.from("app_notifications").insert({recipient_id:d.owner_id,title:t.cr_banner,body:msg,ref:d.ref_no});}catch(e){}await notify(d,"client_request");await logEvent("client_request",d.ref_no);toast(t.reqc_sent);}catch(e){toast(e.message,true);}finally{this.disabled=false;this.textContent=t.reqc_send;}};
   $("#vfp").innerHTML=d.fingerprint?`<div class="fingerbox"><div class="fl">${esc(t.fp)}</div><div class="fv">${esc(d.fingerprint)}</div></div>`:"";
   $("#vocr").innerHTML=`<button class="btn ghost block" id="ocrbtn">🔎 ${esc(t.ocr_run)}</button><div id="ocrout"></div>`;
   $("#ocrbtn").onclick=async function(){const btn=this;btn.disabled=true;btn.innerHTML=`<span class="spin"></span> ${esc(t.ocr_running)} <span id="ocrp"></span>`;
@@ -655,6 +707,7 @@ function vTrack(c){const t=L();if(!state.docs.length){c.innerHTML=head(t.nav.tra
    <div class="kv"><span class="k">${esc(t.c_app)}</span><span class="v">${esc(d.applicant_name)}</span></div>
    <div class="kv"><span class="k">${esc(t.c_status)}</span><span class="v">${pill(d.status)}</span></div>
    <div class="kv"><span class="k">${esc(t.c_cust)}</span><span class="v"><span class="pill muted">${esc(t.custody[d.custody])}</span></span></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn ghost sm" id="tcopy">⧉ ${esc(t.copy_no)}</button><button class="btn ghost sm" id="tprint">⎙ ${esc(t.print_label)}</button></div>
    ${d.client_request?`<div class="card pad" style="margin-top:14px;border-color:var(--gold);background:var(--warn-bg)"><div style="font-weight:700;color:var(--gold-deep);margin-bottom:6px">⚑ ${esc(t.cr_banner)}</div><div style="font-size:13.5px;color:var(--ink);line-height:1.7" dir="auto">${esc(d.client_request)}</div>${owner?`<div class="filebox" id="crbox" style="margin-top:10px"><span id="crname">${esc(t.cr_upload)}</span></div><input type="file" id="crfile" accept="application/pdf,image/*" class="hide"><button class="btn gold block" id="crsend" style="margin-top:10px">${esc(t.cr_send)}</button>`:""}</div>`:""}
    ${d.verification_id?`<div class="kv"><span class="k">Verify ID</span><span class="v mono">${esc(d.verification_id)}</span></div>`:""}
    ${d.fingerprint?`<div style="margin-top:14px" class="fingerbox"><div class="fl">${esc(t.fp)}</div><div class="fv">${esc(d.fingerprint)}</div></div>`:""}
@@ -662,6 +715,8 @@ function vTrack(c){const t=L();if(!state.docs.length){c.innerHTML=head(t.nav.tra
    ${owner&&((d.files&&d.files.length)||d.file_path)?`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:14px">${esc(t.files_lbl)}</div>${fileButtons(d)}`:""}
    <p class="hairnote" style="margin-top:16px">${esc(t.trk_hint)}</p>`;
    wireFiles($("#tm"));
+   const tc=$("#tcopy");if(tc)tc.onclick=()=>copyText(d.ref_no+" · "+(d.applicant_name||"")+" · "+svcName(d.service_type));
+   const tp=$("#tprint");if(tp)tp.onclick=()=>printLabel(d);
    const crb=$("#crbox");if(crb){crb.onclick=()=>$("#crfile").click();$("#crfile").onchange=e=>{crFile=e.target.files[0];if(crFile&&crFile.size>26214400){toast(t.too_big+" "+crFile.name,true);crFile=null;$("#crfile").value="";$("#crname").textContent=t.cr_upload;return;}$("#crname").innerHTML=crFile?`<b>${esc(crFile.name)}</b>`:esc(t.cr_upload);};
     $("#crsend").onclick=async function(){if(!crFile){toast(t.cr_upload,true);return;}this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const path=session.user.id+"/"+d.ref_no+"-extra-"+Date.now()+"-"+crFile.name.replace(/[^\w.\-]/g,"_");const{error:upErr}=await sb.storage.from("documents").upload(path,crFile);if(upErr)throw new Error(t.upload_failed+": "+upErr.message);const{error}=await sb.rpc("client_respond",{p_id:d.id,p_file:{k:"extra",label:"رد العميل",path,name:crFile.name}});if(error)throw error;await logEvent("client_responded",d.ref_no);await fetchDocs();toast(t.cr_done);renderView();}catch(e){toast(e.message,true);this.disabled=false;this.textContent=t.cr_send;}};}
    if(d.verification_id&&["cleared","ready","handed"].includes(d.status)){const qb=$("#tqr");if(qb)try{new QRCode(qb,{text:location.origin+location.pathname+"?verify="+d.verification_id,width:128,height:128,colorDark:"#0E2740",colorLight:"#fff"});}catch(e){}}};
@@ -702,7 +757,7 @@ async function vArchive(c){const t=L();
  const entBox=$("#arent");
  const setOrg=async(id,status,req,okmsg)=>{try{const{error}=await sb.rpc("admin_set_org",{target:id,p_status:status,p_request:req});if(error)throw error;const ent=ents.find(x=>x.id===id);if(status==="approved"&&ent&&ent.account_type==="embassy"){try{await sb.rpc("admin_set_role",{target:id,new_role:"consul"});}catch(e){}}await logEvent(status==="approved"?"entity_approved":status==="rejected"?"entity_rejected":"entity_request",id);toast(okmsg);vArchive(c);}catch(e){toast(e.message,true);}};
  if(!pending.length){entBox.innerHTML=`<div class="card"><div class="empty">${esc(t.ent_none)}</div></div>`;}
- else{entBox.innerHTML=pending.map(e=>`<div class="card pad" style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px"><div><div style="font-weight:700;color:var(--ink)">${esc(e.org_name||e.full_name||"—")} <span class="pill ${e.account_type==="embassy"?"info":"tag"}">${esc(e.account_type==="embassy"?t.acc_embassy:t.acc_company)}</span></div><div style="font-size:12.5px;color:var(--muted)">${esc(e.full_name||"")}</div></div><span class="pill ${e.org_status==="rejected"?"bad":"warn"}">${esc(e.org_status==="rejected"?t.st_rejected:t.st_pending)}</span></div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:12px">${esc(t.ent_docs)}</div>${fileButtons({files:e.org_docs||[]})||`<div style="font-size:12.5px;color:var(--muted);margin-top:6px">—</div>`}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn gold sm" data-ap="${esc(e.id)}">${esc(t.ent_approve)}</button><button class="btn ghost sm" data-rj="${esc(e.id)}">${esc(t.ent_reject)}</button></div><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input class="inp" data-rqi="${esc(e.id)}" placeholder="${esc(t.ent_req_ph)}" style="flex:1;min-width:180px;font-size:12.5px;padding:7px 10px"><button class="btn ghost sm" data-rq="${esc(e.id)}">${esc(t.ent_reqdocs)}</button></div></div>`).join("");
+ else{entBox.innerHTML=pending.map(e=>`<div class="card pad" style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px"><div><div style="font-weight:700;color:var(--ink)">${esc(e.org_name||e.full_name||"—")} <span class="pill ${e.account_type==="embassy"?"info":"tag"}">${esc(e.account_type==="embassy"?t.acc_embassy:t.acc_company)}</span></div><div style="font-size:12.5px;color:var(--muted)">${esc(e.full_name||"")}${e.email?" · "+esc(e.email):""}</div></div><span class="pill ${e.org_status==="rejected"?"bad":"warn"}">${esc(e.org_status==="rejected"?t.st_rejected:t.st_pending)}</span></div>${e.account_type==="company"?`<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:12px">${esc(t.ent_docs)}</div>${fileButtons({files:e.org_docs||[]})||`<div style="font-size:12.5px;color:var(--muted);margin-top:6px">—</div>`}`:`<div style="font-size:12.5px;color:var(--muted);margin-top:10px">${esc(t.embassy_pending_banner)}</div>`}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="btn gold sm" data-ap="${esc(e.id)}">${esc(t.ent_approve)}</button><button class="btn ghost sm" data-rj="${esc(e.id)}">${esc(t.ent_reject)}</button></div>${e.account_type==="company"?`<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input class="inp" data-rqi="${esc(e.id)}" placeholder="${esc(t.ent_req_ph)}" style="flex:1;min-width:180px;font-size:12.5px;padding:7px 10px"><button class="btn ghost sm" data-rq="${esc(e.id)}">${esc(t.ent_reqdocs)}</button></div>`:""}</div>`).join("");
    wireFiles(entBox);
    entBox.querySelectorAll("[data-ap]").forEach(b=>b.onclick=()=>setOrg(b.getAttribute("data-ap"),"approved",null,t.approved_ok));
    entBox.querySelectorAll("[data-rj]").forEach(b=>b.onclick=()=>setOrg(b.getAttribute("data-rj"),"rejected",null,t.rejected_ok));
@@ -742,6 +797,8 @@ async function vManage(c){const t=L();
     <div class="card"><div class="tablewrap"><table class="tbl"><thead><tr><th>${esc(t.lib_auth)}</th><th>${esc(t.lib_label)}</th><th>${esc(t.lib_type)}</th><th>${esc(t.u_since)}</th></tr></thead><tbody>${libRows}</tbody></table></div></div></div>
   <div class="sectionhead"><h2>${esc(t.mng_users)}</h2><div class="gline"></div></div>
   <div class="card"><div class="tablewrap"><table class="tbl"><thead><tr><th>${esc(t.u_name)}</th><th>${esc(t.acc_type)}</th><th>${esc(t.u_role)}</th><th>${esc(t.u_status)}</th><th>${esc(t.u_since)}</th></tr></thead><tbody>${uRows||""}</tbody></table></div></div>
+  <div class="sectionhead"><h2>${esc(t.bc_title)}</h2><div class="gline"></div></div>
+  <div class="card pad"><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0 14px"><label class="fld"><span class="lt">${esc(t.bc_aud)}</span><select class="inp" id="bc_aud"><option value="all">${esc(t.bc_all)}</option><option value="individual">${esc(t.bc_clients)}</option><option value="company">${esc(t.bc_companies)}</option><option value="embassy">${esc(t.bc_consul)}</option></select></label><label class="fld"><span class="lt">${esc(t.bc_t)}</span><input class="inp" id="bc_t"></label></div><label class="fld"><span class="lt">${esc(t.bc_b)}</span><textarea class="inp" id="bc_b" rows="2"></textarea></label><button class="btn primary" id="bc_send">${esc(t.bc_send)}</button></div>
   <div class="sectionhead"><h2>${esc(t.mng_notif)}</h2><div class="gline"></div></div>
   <div class="card"><div class="tablewrap"><table class="tbl"><thead><tr><th>${esc(t.u_since)}</th><th>${esc(t.nt_to)}</th><th>${esc(t.nt_ch)}</th><th>${esc(t.nt_tpl)}</th><th>${esc(t.nt_st)}</th></tr></thead><tbody>${ntRows}</tbody></table></div></div>`;
  c.querySelectorAll("[data-uid]").forEach(sel=>sel.onchange=async()=>{try{const{error}=await sb.rpc("admin_set_role",{target:sel.getAttribute("data-uid"),new_role:sel.value});if(error)throw error;await logEvent("role_changed",sel.value);toast(t.role_saved);}catch(e){toast(e.message,true);}});
@@ -750,12 +807,13 @@ async function vManage(c){const t=L();
  $("#saveprofiles").onclick=async function(){this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const rows=Object.keys(t.docTypes).map(dt=>({tenant_id:profile.tenant_id,doc_type:dt,stamps:($("#pf_"+dt).value||"").split("\n").map(s=>s.trim()).filter(Boolean)}));const{error}=await sb.from("doc_profiles").upsert(rows);if(error)throw error;await fetchDocProfiles();await logEvent("profiles_updated");toast(t.profiles_saved);}catch(e){toast(e.message,true);}finally{this.disabled=false;this.textContent=t.saveall;}};
  let slFile=null;$("#slbox").onclick=()=>$("#sl_file").click();$("#sl_file").onchange=e=>{slFile=e.target.files[0];$("#slname").innerHTML=slFile?`<b>${esc(slFile.name)}</b>`:esc(t.lib_file);};
  $("#sl_add").onclick=async function(){if(!slFile||!$("#sl_auth").value.trim()){toast(t.lib_auth,true);return;}this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const ph=await aHash(slFile);const path=profile.tenant_id+"/"+Math.random().toString(36).slice(2)+"-"+slFile.name.replace(/[^\w.\-]/g,"_");try{await sb.storage.from("stamps").upload(path,slFile);}catch(e){}const{error}=await sb.from("stamp_library").insert({authority:$("#sl_auth").value.trim(),label:$("#sl_label").value.trim(),sample_type:$("#sl_type").value,image_path:path,phash:ph});if(error)throw error;await logEvent("stamp_added",$("#sl_auth").value.trim());toast(t.lib_added);vManage(c);}catch(e){toast(e.message,true);this.disabled=false;this.textContent=t.lib_add;}};
+ $("#bc_send").onclick=async function(){const title=$("#bc_t").value.trim(),body=$("#bc_b").value.trim();if(!title){toast(t.bc_need,true);return;}this.disabled=true;this.innerHTML=`<span class="spin"></span>`;try{const aud=$("#bc_aud").value;let q=sb.from("profiles").select("id");if(aud!=="all")q=q.eq("account_type",aud);const{data:targets,error:e1}=await q;if(e1)throw e1;const rows=(targets||[]).map(r=>({recipient_id:r.id,title,body:body||null}));if(!rows.length){toast(t.res_none,true);this.disabled=false;this.textContent=t.bc_send;return;}for(let i=0;i<rows.length;i+=200){const{error}=await sb.from("app_notifications").insert(rows.slice(i,i+200));if(error)throw error;}await logEvent("broadcast",aud+" · "+rows.length);toast(t.bc_sent);$("#bc_t").value="";$("#bc_b").value="";}catch(e){toast(e.message,true);}finally{this.disabled=false;this.textContent=t.bc_send;}};
 }
 
 /* ============ lang + events ============ */
 function setLang(l){state.lang=l;document.documentElement.lang=l;document.documentElement.dir=I[l].dir;if(session&&profile){buildNav();chrome();renderView();}else{paintAuth();}}
 function toggleLang(){setLang(state.lang==="ar"?"en":"ar");}
-function bindEvents(){$("#langBtn").onclick=toggleLang;$("#langAuth").onclick=toggleLang;$("#menuToggle").onclick=()=>document.body.classList.toggle("navopen");$("#scrim").onclick=()=>document.body.classList.remove("navopen");$("#tabIn").onclick=()=>{state.authMode="in";paintAuth();};$("#tabUp").onclick=()=>{state.authMode="up";paintAuth();};$("#a_go").onclick=doAuth;$("#a_forgot").onclick=doForgot;$("#a_pass").addEventListener("keydown",e=>{if(e.key==="Enter")doAuth();});}
+function bindEvents(){$("#langBtn").onclick=toggleLang;$("#langAuth").onclick=toggleLang;$("#menuToggle").onclick=()=>document.body.classList.toggle("navopen");$("#scrim").onclick=()=>document.body.classList.remove("navopen");$("#bellBtn").onclick=e=>{e.stopPropagation();toggleBell();};document.addEventListener("click",e=>{const p=$("#bellPanel");if(p&&!p.classList.contains("hide")&&!p.contains(e.target)&&e.target.closest("#bellBtn")===null)p.classList.add("hide");});$("#tabIn").onclick=()=>{state.authMode="in";paintAuth();};$("#tabUp").onclick=()=>{state.authMode="up";paintAuth();};$("#a_go").onclick=doAuth;$("#a_forgot").onclick=doForgot;$("#a_pass").addEventListener("keydown",e=>{if(e.key==="Enter")doAuth();});}
 boot();
 </script>
 </body>
